@@ -238,6 +238,7 @@ input[type="number"]{
 #btnApply, #btnClear, #btnOrders{
     width: 300px;
     margin-top: 10px;
+    align-items: center;
 }
 
 
@@ -257,6 +258,7 @@ table thead{
     border: 1px solid #e2e9e1;
     border-left: none;
     border-right: none;
+    background-color: #E3E6F3;
 }
 
 table thead td{
@@ -274,6 +276,7 @@ table tbody{
 
 table tbody tr td{
     padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 table tbody td{
@@ -289,4 +292,53 @@ table td:nth-child(6),
 table td:nth-child(7){
     width: 400px;
     text-align: center;
+}
+
+/* PROPRIETATI PENTRU DROPDOWN-urile COMENZILOR */
+.dropDown{
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 50px 5px 10px;
+    border: 1px solid #ccc;
+    height: 20px;/*plus*/
+    word-wrap: normal;
+    width: 300px;
+    padding: 2px 3px;
+}
+
+.dropDown:after{
+    position: absolute;
+    content: "";
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    padding: 4px;
+    right: 10px;
+    top: 5%;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+}
+
+.dropDown:active:after{
+    right: 8px;
+    top: 21%;
+}
+
+.propTable{
+    padding: 2px;
+    display: none;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.test.visible .dropDown{
+    color: #367976;
+}
+
+.test.visible .propTable{
+    display: block;
 }

@@ -3217,47 +3217,10 @@ bntSearch.addEventListener('click', () => {
     SearchData();
 })
 
-var lstClients = [];
-var objKeys;
-var lstKeys = [];
-function getIdClient(){
-
-    get(child(dbRef, "ComenziPlasate")).then((snapshot) => {
-        snapshot.forEach(childObj => {
-            console.log("uid existente", childObj.key);
-            var idClients = childObj.key;
-            lstClients.push(idClients);
-            console.log("List Clienti", lstClients);
-        })
-    }) 
-
-    for(let element of lstClients){
-        console.log("element ", element);
-
-        get(child(dbRef, "ComenziPlasate/" + element)).then((snapshot) => {
-            console.log("key client ", element);
-            console.log("Date Client ", snapshot.val().Client.Nume);
-            get(child(dbRef, "ComenziPlasate/" + element + "/Comenzi")).then((snapshot) => {
-                snapshot.forEach(obj => {
-                    var idPrd = obj.key;
-                    objKeys = {
-                        idClient: element,
-                        idProd: idPrd
-                    }
-                    lstKeys.push(objKeys);
-                    console.log("LISTA DE OBIECTE DE CHEI ", lstKeys);
-                })
-            })
-        })
-    }
-    
-}
-
 
 // EVENIMENT PENTRU BUTONUL DE VIZUALIZARE COMENZI PLASATE
 btnOrders.addEventListener('click', () => {
-    getIdClient();
-    console.log("LISTA DE CLIENTI CU UID-urile: ", lstClients);
+
     let keyOrder;
 
     let clientName;
@@ -3287,331 +3250,272 @@ btnOrders.addEventListener('click', () => {
     let total;
     let anulare;
     let plasare;
-    
-    if(lstClients){
-        for(let element of lstClients){
-            console.log("element ", element);
 
-            get(child(dbRef, "ComenziPlasate/" + element)).then((snapshot) => {
-                console.log("key client ", element);
-                console.log("Date Client ", snapshot.val().Client.Nume);
-                 
+    let viewOrders;
 
-                // snapshot.forEach(childObj => {
-                //     keyOrder = element;
-                //     console.log("key client ", keyOrder);
-                //     console.log("child key ", childObj.val().Nume );
-// ----------------------------------------------------------------------------------
-                    // let divTable = document.getElementById("tabel");
+    console.log("blaaa");
+    get(child(dbRef, "Comenzi/")).then((snapshot) => {
         
-                    // // generarea tabelului pentru datele clientilor
-                    // let table = document.createElement('table');
-                    // table.id = "tableClient";
-                    //     let thead = document.createElement('thead');
-                    //         let tr_head = document.createElement('tr');
-                    //             let td_headCode = document.createElement('td');
-                    //             let td_headName = document.createElement('td');
-                    //             let td_headMail = document.createElement('td');
-                    //             let td_headPhone = document.createElement('td');
-                    //             let td_headAddress = document.createElement('td');
-                    //             let td_headCity = document.createElement('td');
-                    //             let td_headCounty = document.createElement('td');
-                    //             let td_headZip = document.createElement('td');
-                    //     let tbody = document.createElement('tbody');
-                    //     tbody.id = "viewClients";
-        
-                    // td_headCode.innerHTML = "Cod Client";
-                    // td_headName.innerHTML = "Nume Client";
-                    // td_headMail.innerHTML = "Mail";
-                    // td_headPhone.innerHTML = "Nr. Telefon";
-                    // td_headAddress.innerHTML = "Adresa";
-                    // td_headCity.innerHTML = "Oras";
-                    // td_headCounty.innerHTML = "Judet";
-                    // td_headZip.innerHTML = "Cod postal";
-        
-                    // tr_head.appendChild(td_headCode);
-                    // tr_head.appendChild(td_headName);
-                    // tr_head.appendChild(td_headMail);
-                    // tr_head.appendChild(td_headPhone);
-                    // tr_head.appendChild(td_headAddress);
-                    // tr_head.appendChild(td_headCity);
-                    // tr_head.appendChild(td_headCounty);
-                    // tr_head.appendChild(td_headZip);
-        
-                    // thead.appendChild(tr_head);
-        
-                    // // generarea randului pentru datele clientilor
-                    // let trClients = document.createElement('tr');
-                    // let tdKey = document.createElement('td');
-                    // let tdCName = document.createElement('td');
-                    // let tdCMail = document.createElement('td');
-                    // let tdCPhone = document.createElement('td');
-                    // let tdCAddress = document.createElement('td');
-                    // let tdCCity = document.createElement('td');
-                    // let tdCCounty = document.createElement('td');
-                    // let tdCZip = document.createElement('td');
-                    
-                    // // datele clientilor care au plasat o comanda
-                    // clientName = childObj.val().Client.Nume;
-                    // clientMail = childObj.val().Client.Mail;
-                    // clientPhone = childObj.val().Client.Telefon;
-                    // clientAddress = childObj.val().Client.Adresa;
-                    // clientCity = childObj.val().Client.Oras;
-                    // clientCounty = childObj.val().Client.Judet;
-                    // clientZip = childObj.val().Client.CodPostal;
+        snapshot.forEach(childObj => {
+            keyOrder = childObj.key;
+
+            viewOrders = document.getElementById("tabel");
+
+            let tableClient = document.createElement('table');
+            let tbody = document.createElement('tbody');
+            let th = document.createElement('thead');
+            let tr = document.createElement('tr');
+            let tdKey = document.createElement('td');
+            let tdName = document.createElement('td');
+            let tdMail = document.createElement('td');
+            let tdPhone = document.createElement('td');
+            let tdAddress = document.createElement('td');
+            let tdCity = document.createElement('td');
+            let tdCounty = document.createElement('td');
+            let tdZip = document.createElement('td');
+
+            tdKey.innerHTML = "Cod Comanda";
+            tdName.innerHTML = "Nume";
+            tdMail.innerHTML = "Mail";
+            tdPhone.innerHTML = "Telefon";
+            tdAddress.innerHTML = "Adresa";
+            tdCity.innerHTML = "Oras";
+            tdCounty.innerHTML = "Judet";
+            tdZip.innerHTML = "Cod postal";
+            
+            tr.appendChild(tdKey);
+            tr.appendChild(tdName);
+            tr.appendChild(tdMail);
+            tr.appendChild(tdPhone);
+            tr.appendChild(tdAddress);
+            tr.appendChild(tdCity);
+            tr.appendChild(tdCounty);
+            tr.appendChild(tdZip);
+
+            th.appendChild(tr);
+            
+            
+
+            let trClients = document.createElement('tr');
+            let tdSpace = document.createElement('td');
+            let tdCName = document.createElement('td');
+            let tdCMail = document.createElement('td');
+            let tdCPhone = document.createElement('td');
+            let tdCAddress = document.createElement('td');
+            let tdCCity = document.createElement('td');
+            let tdCCounty = document.createElement('td');
+            let tdCZip = document.createElement('td');
+            
+            // datele clientilor care au plasat o comanda
+            clientName = childObj.val().Client.Nume;
+            clientMail = childObj.val().Client.Mail;
+            clientPhone = childObj.val().Client.Telefon;
+            clientAddress = childObj.val().Client.Adresa;
+            clientCity = childObj.val().Client.Oras;
+            clientCounty = childObj.val().Client.Judet;
+            clientZip = childObj.val().Client.CodPostal;
+           
+            // setarea datelor tabelului
+            tdSpace.innerHTML = keyOrder;
+            tdCName.innerHTML = clientName;
+            tdCMail.innerHTML = clientMail;
+            tdCPhone.innerHTML = clientPhone;
+            tdCAddress.innerHTML = clientAddress;
+            tdCCity.innerHTML = clientCity;
+            tdCCounty.innerHTML = clientCounty;
+            tdCZip.innerHTML = clientZip;
+
+            // popularea randurilor
+            trClients.appendChild(tdSpace);
+            trClients.appendChild(tdCName);
+            trClients.appendChild(tdCMail);
+            trClients.appendChild(tdCPhone);
+            trClients.appendChild(tdCAddress);
+            trClients.appendChild(tdCCity);
+            trClients.appendChild(tdCCounty);
+            trClients.appendChild(tdCZip);
+
+            tbody.appendChild(trClients);
+       
+            tableClient.appendChild(th);
+            tableClient.appendChild(tbody);
+
+
+            viewOrders.appendChild(tableClient);
+           
+
+            // lista totala de produse comandate
+            let prod = childObj.val().Produse;
+            console.log(prod);
+
+            let tableProd = document.createElement('table');
+            let thProd = document.createElement('thead');
+            let tbodyProd = document.createElement('tbody');
+            let trThProd = document.createElement('tr');
+            let tdThName = document.createElement('td');
+            let tdThBrand = document.createElement('td');
+            let tdThSize = document.createElement('td');
+            let tdThColor = document.createElement('td');
+            let tdThPrice = document.createElement('td');
+            let tdThSales = document.createElement('td');
+            let tdThQty = document.createElement('td');
+            let tdThSubtotal = document.createElement('td');
+
+            // setarea datelor tabelului
+            tdThName.innerHTML = "Nume produs";
+            tdThBrand.innerHTML = "Brand";
+            tdThSize.innerHTML = "Marime";
+            tdThColor.innerHTML = "Culoare";
+            tdThPrice.innerHTML = "Pret";
+            tdThSales.innerHTML = "Pret Redus";
+            tdThQty.innerHTML = "Cantitate";
+            tdThSubtotal.innerHTML = "Subtotal";
+
+            trThProd.appendChild(tdThName);
+            trThProd.appendChild(tdThBrand);
+            trThProd.appendChild(tdThSize);
+            trThProd.appendChild(tdThColor);
+            trThProd.appendChild(tdThPrice);
+            trThProd.appendChild(tdThSales);
+            trThProd.appendChild(tdThQty);
+            trThProd.appendChild(tdThSubtotal);
+
+            thProd.appendChild(trThProd);
+
+            // parcurgerea listei de produse comandate
+            for(const element of prod){
                 
-                    // // setarea datelor tabelului
-                    // tdKey.innerHTML = keyOrder;
-                    // tdCName.innerHTML = clientName;
-                    // tdCMail.innerHTML = clientMail;
-                    // tdCPhone.innerHTML = clientPhone;
-                    // tdCAddress.innerHTML = clientAddress;
-                    // tdCCity.innerHTML = clientCity;
-                    // tdCCounty.innerHTML = clientCounty;
-                    // tdCZip.innerHTML = clientZip;
-        
-                    // // popularea randurilor
-                    // trClients.appendChild(tdKey);
-                    // trClients.appendChild(tdCName);
-                    // trClients.appendChild(tdCMail);
-                    // trClients.appendChild(tdCPhone);
-                    // trClients.appendChild(tdCAddress);
-                    // trClients.appendChild(tdCCity);
-                    // trClients.appendChild(tdCCounty);
-                    // trClients.appendChild(tdCZip);
-        
-                    // tbody.appendChild(trClients);
-        
-                    // table.appendChild(thead);
-                    // table.appendChild(tbody);
-        
-                    // divTable.appendChild(table);
-        
-        
-        
-        
-        
-        
-                    
-        
-                    
-                    // // generarea tabelului pentru datele comenzii
-                    // let tableDetails = document.createElement('table');
-                    // tableDetails.id = "tableDetails";
-                    //     let theadDetails = document.createElement('thead');
-                    //         let tr_headDetails = document.createElement('tr');
-                    //             let td_headData = document.createElement('td');
-                    //             let td_headOra = document.createElement('td');
-                    //             let td_headPlata = document.createElement('td');
-                    //             let td_headStatus = document.createElement('td');
-                    //             let td_headExpediere = document.createElement('td');
-                    //             let td_headTaxa = document.createElement('td');
-                    //             let td_headSubPlata = document.createElement('td');
-                    //             let td_headTotal = document.createElement('td');
-                    //             let td_headAnulare = document.createElement('td');
-                    //             let td_headPlasare = document.createElement('td');
-                    //     let tbodyDetails = document.createElement('tbody');
-                    //     tbodyDetails.id = "viewDetails";
-        
-                    // td_headData.innerHTML = "Data";
-                    // td_headOra.innerHTML = "Ora";
-                    // td_headPlata.innerHTML = "Plata";
-                    // td_headStatus.innerHTML = "Status plata";
-                    // td_headExpediere.innerHTML = "Metoda de expediere";
-                    // td_headTaxa.innerHTML = "Taxa transport";
-                    // td_headSubPlata.innerHTML = "Subplata";
-                    // td_headTotal.innerHTML = "Total";
-                    // td_headAnulare.innerHTML = "Anulare";
-                    // td_headPlasare.innerHTML = "Expediere";
-        
-                    // tr_headDetails.appendChild(td_headData);
-                    // tr_headDetails.appendChild(td_headOra);
-                    // tr_headDetails.appendChild(td_headPlata);
-                    // tr_headDetails.appendChild(td_headStatus);
-                    // tr_headDetails.appendChild(td_headExpediere);
-                    // tr_headDetails.appendChild(td_headTaxa);
-                    // tr_headDetails.appendChild(td_headSubPlata);
-                    // tr_headDetails.appendChild(td_headTotal);
-                    // tr_headDetails.appendChild(td_headAnulare);
-                    // tr_headDetails.appendChild(td_headPlasare);
-        
-                    // theadDetails.appendChild(tr_headDetails);
-                    // tableDetails.appendChild(theadDetails);
-        
-        
-        
-                   
-        
-        
-                    // get(child(dbRef, "ComenziPlasate/" + childObj.key + "/Comenzi")).then((snapshot) => {
-                    //     // lista totala de produse comandate
-                    //     snapshot.forEach(obj => {
-                            
-                    //         // generarea randului pentru datele comenzii
-                    //         let trDetails = document.createElement('tr');
-                    //         let tdData = document.createElement('td');
-                    //         let tdOra = document.createElement('td');
-                    //         let tdPlata = document.createElement('td');
-                    //         let tdStatus = document.createElement('td');
-                    //         let tdExpediere = document.createElement('td');
-                    //         let tdTaxa = document.createElement('td');
-                    //         let tdSubPlata = document.createElement('td');
-                    //         let tdTotal = document.createElement('td');
-                    //         let tdAnulare = document.createElement('td');
-                    //         let tdPlasare = document.createElement('td');
-                            
-                    //         // datele clientilor care au plasat o comanda
-                    //         data = obj.val().Data;
-                    //         ora = obj.val().Ora;
-                    //         plata = obj.val().Plata;
-                    //         status = obj.val().StatusPlata;
-                    //         expediere = obj.val().MetodaExpediere;
-                    //         taxa = obj.val().TaxaTransport;
-                    //         subPlata = obj.val().SubtotalProduse;
-                    //         total = obj.val().Total;
-                    //         anulare = "btnAnulare";
-                    //         plasare = "btnPlasare";
-                        
-                    //         // setarea datelor tabelului
-                    //         tdData.innerHTML = data;
-                    //         tdOra.innerHTML = ora;
-                    //         tdPlata.innerHTML = plata;
-                    //         tdStatus.innerHTML = status;
-                    //         tdExpediere.innerHTML = expediere;
-                    //         tdTaxa.innerHTML = taxa;
-                    //         tdSubPlata.innerHTML = subPlata;
-                    //         tdTotal.innerHTML = total;
-                    //         tdAnulare.innerHTML = anulare;
-                    //         tdPlasare.innerHTML = plasare;
-        
-                    //         // popularea randurilor
-                    //         trDetails.appendChild(tdData);
-                    //         trDetails.appendChild(tdOra);
-                    //         trDetails.appendChild(tdPlata);
-                    //         trDetails.appendChild(tdStatus);
-                    //         trDetails.appendChild(tdExpediere);
-                    //         trDetails.appendChild(tdTaxa);
-                    //         trDetails.appendChild(tdSubPlata);
-                    //         trDetails.appendChild(tdTotal);
-                    //         trDetails.appendChild(tdAnulare);
-                    //         trDetails.appendChild(tdPlasare);
-        
-                    //         tbodyDetails.appendChild(trDetails);
-        
-                           
-                    //         tableDetails.appendChild(tbodyDetails);
-        
-                    //         divTable.appendChild(tableDetails);
-        
-        
-                    
-                   
-                    //     })
-                        
-                    // })
- // ----------------------------------------------------------------------------------       
-                    // generarea tabelului pentru datele produselor
-                    // let tableProd = document.createElement('table');
-                    // tableProd.id = "tableProd";
-                    //     let theadProd = document.createElement('thead');
-                    //         let tr_headProd = document.createElement('tr');
-                    //             let td_headNameP = document.createElement('td');
-                    //             let td_headBrand = document.createElement('td');
-                    //             let td_headSize = document.createElement('td');
-                    //             let td_headColor = document.createElement('td');
-                    //             let td_headPrice = document.createElement('td');
-                    //             let td_headSales = document.createElement('td');
-                    //             let td_headQty = document.createElement('td');
-                    //             let td_headSubtotal = document.createElement('td');
-                    //     let tbodyProd = document.createElement('tbody');
-                    //     tbodyProd.id = "viewProd";
-        
-                    // td_headNameP.innerHTML = "Nume produs";
-                    // td_headBrand.innerHTML = "Brand";
-                    // td_headSize.innerHTML = "Marime";
-                    // td_headColor.innerHTML = "Culoare";
-                    // td_headPrice.innerHTML = "Pret";
-                    // td_headSales.innerHTML = "Pret redus";
-                    // td_headQty.innerHTML = "Cantitate";
-                    // td_headSubtotal.innerHTML = "Subtotal";
-        
-                    // tr_headProd.appendChild(td_headNameP);
-                    // tr_headProd.appendChild(td_headBrand);
-                    // tr_headProd.appendChild(td_headSize);
-                    // tr_headProd.appendChild(td_headColor);
-                    // tr_headProd.appendChild(td_headPrice);
-                    // tr_headProd.appendChild(td_headSales);
-                    // tr_headProd.appendChild(td_headQty);
-                    // tr_headProd.appendChild(td_headSubtotal);
-        
-                    // theadProd.appendChild(tr_headProd);
-                    // tableProd.appendChild(theadProd);
-        
-        
-        
-        
-                    // parcurgerea listei de produse comandate
-                    // for(const element of prod){
-                        
-        
-                    //     let trProd = document.createElement('tr');
-                    //     let tdPName = document.createElement('td');
-                    //     let tdPBrand = document.createElement('td');
-                    //     let tdPSize = document.createElement('td');
-                    //     let tdPColor = document.createElement('td');
-                    //     let tdPPrice = document.createElement('td');
-                    //     let tdPSales = document.createElement('td');
-                    //     let tdPQty = document.createElement('td');
-                    //     let tdPSubtotal = document.createElement('td');
-        
-                    //     prodName = element['nume'];
-                    //     prodBrand = element['brand'];
-                    //     prodSize = element['marime'];
-                    //     prodColor = element['culoare'];
-                    //     prodPrice = element['pret'];
-                    //     prodSales = element['pretRedus'];
-                    //     prodQty = element['cantitate'];
-                    //     prodSubtotal = element['subtotal'];
-        
-                    //     // setarea datelor tabelului
-                    //     tdPName.innerHTML = prodName;
-                    //     tdPBrand.innerHTML = prodBrand;
-                    //     tdPSize.innerHTML = prodSize;
-                    //     tdPColor.innerHTML = prodColor;
-                    //     tdPPrice.innerHTML = prodPrice;
-                    //     tdPSales.innerHTML = prodSales;
-                    //     tdPQty.innerHTML = prodQty;
-                    //     tdPSubtotal.innerHTML = prodSubtotal;
-        
-                    //     // popularea randurilor
-                    //     trProd.appendChild(tdPName);
-                    //     trProd.appendChild(tdPBrand);
-                    //     trProd.appendChild(tdPSize);
-                    //     trProd.appendChild(tdPColor);
-                    //     trProd.appendChild(tdPPrice);
-                    //     trProd.appendChild(tdPSales);
-                    //     trProd.appendChild(tdPQty);
-                    //     trProd.appendChild(tdPSubtotal);
-        
-                    //     tbodyProd.appendChild(trProd);
-                    //     tableProd.appendChild(tbodyProd);
-        
-                    //     divTable.appendChild(tableProd);  
-                    // }
-        
-        
-                    
-                    
-        
-                    
-                // })
-                
-            })
+                let trProd = document.createElement('tr');
+                let tdPName = document.createElement('td');
+                let tdPBrand = document.createElement('td');
+                let tdPSize = document.createElement('td');
+                let tdPColor = document.createElement('td');
+                let tdPPrice = document.createElement('td');
+                let tdPSales = document.createElement('td');
+                let tdPQty = document.createElement('td');
+                let tdPSubtotal = document.createElement('td');
+
+                prodName = element['nume'];
+                prodBrand = element['brand'];
+                prodSize = element['marime'];
+                prodColor = element['culoare'];
+                prodPrice = element['pret'];
+                prodSales = element['pretRedus'];
+                prodQty = element['cantitate'];
+                prodSubtotal = element['subtotal'];
+
+                // setarea datelor tabelului
+                tdPName.innerHTML = prodName;
+                tdPBrand.innerHTML = prodBrand;
+                tdPSize.innerHTML = prodSize;
+                tdPColor.innerHTML = prodColor;
+                tdPPrice.innerHTML = prodPrice;
+                tdPSales.innerHTML = prodSales;
+                tdPQty.innerHTML = prodQty;
+                tdPSubtotal.innerHTML = prodSubtotal;
+
+                // popularea randurilor
+                trProd.appendChild(tdPName);
+                trProd.appendChild(tdPBrand);
+                trProd.appendChild(tdPSize);
+                trProd.appendChild(tdPColor);
+                trProd.appendChild(tdPPrice);
+                trProd.appendChild(tdPSales);
+                trProd.appendChild(tdPQty);
+                trProd.appendChild(tdPSubtotal);
+
+                tbodyProd.appendChild(trProd);
+
+                tableProd.appendChild(thProd);
+                tableProd.appendChild(tbodyProd);
+
+                viewOrders.appendChild(tableProd);
+            }
 
 
-        }
-    }
+            let tableDetails = document.createElement('table');
+            let theadDetails = document.createElement('thead');
+            let tbodyDetails = document.createElement('tbody');
 
-    
+            let tr_headDetails = document.createElement('tr');
+
+            let td_headData = document.createElement('td');
+            let td_headStatus = document.createElement('td');
+            let td_headExpediere = document.createElement('td');
+            let td_headSubPlata = document.createElement('td');
+            let td_headTotal = document.createElement('td');
+            let td_headAnulare = document.createElement('td');
+            let td_headPlasare = document.createElement('td');
+            
+
+            td_headData.innerHTML = "Data/Ora";
+            td_headStatus.innerHTML = "Status plata";
+            td_headExpediere.innerHTML = "Taxa transport";
+            td_headSubPlata.innerHTML = "Subplata";
+            td_headTotal.innerHTML = "Total";
+            td_headAnulare.innerHTML = "Anulare";
+            td_headPlasare.innerHTML = "Expediere";
+
+            tr_headDetails.appendChild(td_headData);
+            tr_headDetails.appendChild(td_headStatus);
+            tr_headDetails.appendChild(td_headExpediere);
+            tr_headDetails.appendChild(td_headSubPlata);
+            tr_headDetails.appendChild(td_headTotal);
+            tr_headDetails.appendChild(td_headAnulare);
+            tr_headDetails.appendChild(td_headPlasare);
+
+            theadDetails.appendChild(tr_headDetails);
+            
+        
+            
+            let trDetails = document.createElement('tr');
+            let tdData = document.createElement('td');
+            let tdStatus = document.createElement('td');
+            let tdExpediere = document.createElement('td');
+            let tdSubPlata = document.createElement('td');
+            let tdTotal = document.createElement('td');
+            let tdAnulare = document.createElement('td');
+            let tdPlasare = document.createElement('td');
+
+            // datele clientilor care au plasat o comanda
+            data = childObj.val().Detalii.Data;
+            ora = childObj.val().Detalii.Ora;
+            plata = childObj.val().Detalii.Plata;
+            status = childObj.val().Detalii.StatusPlata;
+            expediere = childObj.val().Detalii.MetodaExpediere;
+            taxa = childObj.val().Detalii.TaxaTransport;
+            subPlata = childObj.val().Detalii.SubPlata;
+            total = childObj.val().Detalii.Total;
+            anulare = "btnAnulare";
+            plasare = "btnPlasare";
+        
+            // setarea datelor tabelului
+            tdData.innerHTML = data + " / " + ora;
+            tdStatus.innerHTML = status + " / " + plata;
+            tdExpediere.innerHTML = expediere + " / " + taxa + " lei";
+            tdSubPlata.innerHTML = subPlata;
+            tdTotal.innerHTML = total;
+            tdAnulare.innerHTML = anulare;
+            tdPlasare.innerHTML = plasare;
+
+            // popularea randurilor
+            trDetails.appendChild(tdData);
+            trDetails.appendChild(tdStatus);
+            trDetails.appendChild(tdExpediere);
+            trDetails.appendChild(tdSubPlata);
+            trDetails.appendChild(tdTotal);
+            trDetails.appendChild(tdAnulare);
+            trDetails.appendChild(tdPlasare);
+
+            tbodyDetails.appendChild(trDetails);
+
+            tableDetails.appendChild(theadDetails);
+            tableDetails.appendChild(tbodyDetails);
+
+            viewOrders.appendChild(tableDetails);
+            
+        })
+        
+    })
     
 })

@@ -449,7 +449,7 @@ function getIdClient(){
     
 }
 
-
+// modificari
 var count = 0;
 
 document.getElementById("btnSend").addEventListener('click', () => {

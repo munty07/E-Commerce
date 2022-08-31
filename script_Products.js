@@ -3217,6 +3217,73 @@ bntSearch.addEventListener('click', () => {
     SearchData();
 })
 
+function refreshPage(){
+    window.location.reload(true);
+}
+
+function sendEmail(key, mail, name) {
+    console.log("Send mail");
+    console.log("mail-key ", key);
+    console.log("mail ", mail);
+    console.log("mail-nume ", name);
+
+    Email.send({
+    SecureToken : "d4e41b30-45f4-4df0-9742-b6750961dc90",
+    To : mail,
+    From : "muntyancraciunela@gmail.com",
+    Subject : "Confirmare",
+    Body : 
+        "<table align='center' border='0' cellpadding='0' cellspacing='0'" +
+            "width='550' bgcolor='white' style='border:2px solid black'>" +
+            "<tbody>" +
+                "<tr>"+
+                    "<td align='center'>"+
+                        "<table align='center' border='0' cellpadding='0'"+
+                                "cellspacing='0' class='col-550' width='550'>"+
+                            "<tbody>"+
+                                "<tr>"+
+                                    "<td align='center' style='background-color: #367976;"+
+                                        "height: 50px;'>"+
+                                        "<a href='#' style='text-decoration: none;'>"+
+                                            "<p style='color:white;font-weight:bold;'>"+
+                                                    "MIMI SHOP"+
+                                            "</p>"+
+                                        "</a>"+
+                                    "</td>"+
+                                "</tr>"+
+                            "</tbody>"+
+                        "</table>"+
+                    "</td>"+
+                "</tr>"+
+                
+                
+                "<tr style='height: 300px;'>"+
+                    "<td style='border: none;"+
+                        "border-bottom: 2px solid #4cb96b;"+
+                        "padding-right: 20px;padding-left:20px'>"+
+                        "<p style='font-weight: bolder;"+
+                            "font-size: 18px;"+
+                            "letter-spacing: 0.025em;"+
+                            "color:black;"+
+                            "'>"+
+                            "Buna Dl./Dna. " + name + "," +
+                            "<div style='font-size:16px';'font-weight:normal'><br><br>Comanda" + key + 
+                            " a fost predata curierului si facem tot posibilul sa ajunga la dumneavoastra cat mai repede." +
+                            "<br><br><br>Multumim,<br> <strong>Echipa Mimi</strong></div>"+
+                        "</p>"+
+                    "</td>"+
+                "</tr>"+
+            "</tbody>" +
+        "</table>"
+    })
+    .then( message => {
+        if(document.getElementById("livrare" + key)){
+            document.getElementById("livrare" + key).disabled = true;
+        }
+        setTimeout(refreshPage, 3000);
+    });
+}
+
 
 // EVENIMENT PENTRU BUTONUL DE VIZUALIZARE COMENZI PLASATE
 btnOrders.addEventListener('click', () => {
@@ -3462,7 +3529,7 @@ btnOrders.addEventListener('click', () => {
 
             td_headData.innerHTML = "Data/Ora";
             td_headStatus.innerHTML = "Status plata";
-            td_headExpediere.innerHTML = "Taxa transport";
+            td_headExpediere.innerHTML = "Transport";
             td_headSubPlata.innerHTML = "Subplata";
             td_headTotal.innerHTML = "Total";
             td_headAnulare.innerHTML = "Anulare";
@@ -3487,7 +3554,13 @@ btnOrders.addEventListener('click', () => {
             let tdSubPlata = document.createElement('td');
             let tdTotal = document.createElement('td');
             let tdAnulare = document.createElement('td');
-            let tdPlasare = document.createElement('td');
+            let btnAnulare = document.createElement('button');
+                btnAnulare.className = "btn btn-primary order";
+                btnAnulare.id = "anulare" + keyOrder;
+            let tdLivrare = document.createElement('td');
+            let btnLivrare = document.createElement('button');
+                btnLivrare.className = "btn btn-primary order";
+                btnLivrare.id = "livrare" + keyOrder;
 
             // datele clientilor care au plasat o comanda
             data = childObj.val().Detalii.Data;
@@ -3498,8 +3571,8 @@ btnOrders.addEventListener('click', () => {
             taxa = childObj.val().Detalii.TaxaTransport;
             subPlata = childObj.val().Detalii.SubPlata;
             total = childObj.val().Detalii.Total;
-            anulare = "btnAnulare";
-            plasare = "btnPlasare";
+            anulare = "Anulare comanda";
+            plasare = "Livrare comanda";
         
             // setarea datelor tabelului
             tdData.innerHTML = data + " / " + ora;
@@ -3507,9 +3580,11 @@ btnOrders.addEventListener('click', () => {
             tdExpediere.innerHTML = expediere + " / " + taxa + " lei";
             tdSubPlata.innerHTML = subPlata;
             tdTotal.innerHTML = total;
-            tdAnulare.innerHTML = anulare;
-            tdPlasare.innerHTML = plasare;
+            btnAnulare.innerHTML = anulare;
+            btnLivrare.innerHTML = plasare;
 
+            tdAnulare.appendChild(btnAnulare);
+            tdLivrare.appendChild(btnLivrare);
             // popularea randurilor
             trDetails.appendChild(tdData);
             trDetails.appendChild(tdStatus);
@@ -3517,7 +3592,7 @@ btnOrders.addEventListener('click', () => {
             trDetails.appendChild(tdSubPlata);
             trDetails.appendChild(tdTotal);
             trDetails.appendChild(tdAnulare);
-            trDetails.appendChild(tdPlasare);
+            trDetails.appendChild(tdLivrare);
 
             tbodyDetails.appendChild(trDetails);
 
@@ -3525,18 +3600,26 @@ btnOrders.addEventListener('click', () => {
             tableDetails.appendChild(tbodyDetails);
 
             div.appendChild(tableDetails);
-            // viewOrders.appendChild(tableDetails);
-
+            
+            let br = document.createElement('br');
+            
+            div.appendChild(br);
             viewOrders.appendChild(div);
 
 
             div.getElementsByClassName('dropDown')[0].onclick = function(evt) {
-                console.log("blslf");
                 if (div.classList.contains('visible'))
                     div.classList.remove('visible');
                 else
                     div.classList.add('visible');
             }
+
+            btnLivrare.addEventListener('click', () => {
+                let idOrder = childObj.key;
+                let mailClient = childObj.val().Client.Mail;
+                let nameClient = childObj.val().Client.Nume;
+                sendEmail(idOrder, mailClient, nameClient);
+            })
         })
         
     })

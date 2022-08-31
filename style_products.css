@@ -32,7 +32,7 @@
     background-color: #367976!important;
     border-color: #367976!important;
     margin-bottom: 3px;
-    width: 100%;
+    /* width: 100%; */
 }
 .btn-primary:hover{
     background-color: #295e5b!important;
@@ -341,4 +341,23 @@ table td:nth-child(7){
 
 .test.visible .propTable{
     display: block;
+}
+
+
+/* BUTOANE DE ANULARE/LIVRARE COMENZI */
+.btn-primary.order{
+    background-color: #E3E6F3!important;
+    color: black;
+    border: none;
+}
+.btn-primary.order:hover{
+    background-color: #367976!important;
+    color: white;
+    transition: 0.3s ease;
+}
+
+/* PROPRIETATI BUTON INACTIV */
+button:disabled{
+    pointer-events: none;
+    opacity: .65;
 }

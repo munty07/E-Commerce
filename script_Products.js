@@ -3260,8 +3260,17 @@ btnOrders.addEventListener('click', () => {
             keyOrder = childObj.key;
 
             viewOrders = document.getElementById("tabel");
+            let div = document.createElement('div');
+                div.id = "comanda" + keyOrder;
+                div.className = "test";
+                // div.className = "dropdown-check-list";
+            let span = document.createElement('span');
+                span.className = "dropDown";
+                span.innerHTML = "Comanda" + keyOrder;
+            div.appendChild(span);
 
             let tableClient = document.createElement('table');
+                tableClient.className = "propTable";
             let tbody = document.createElement('tbody');
             let th = document.createElement('thead');
             let tr = document.createElement('tr');
@@ -3340,8 +3349,8 @@ btnOrders.addEventListener('click', () => {
             tableClient.appendChild(th);
             tableClient.appendChild(tbody);
 
-
-            viewOrders.appendChild(tableClient);
+            div.appendChild(tableClient);
+            // viewOrders.appendChild(tableClient);
            
 
             // lista totala de produse comandate
@@ -3349,6 +3358,7 @@ btnOrders.addEventListener('click', () => {
             console.log(prod);
 
             let tableProd = document.createElement('table');
+                tableProd.className = "propTable";
             let thProd = document.createElement('thead');
             let tbodyProd = document.createElement('tbody');
             let trThProd = document.createElement('tr');
@@ -3429,11 +3439,13 @@ btnOrders.addEventListener('click', () => {
                 tableProd.appendChild(thProd);
                 tableProd.appendChild(tbodyProd);
 
-                viewOrders.appendChild(tableProd);
+                div.appendChild(tableProd);
+                // viewOrders.appendChild(tableProd);
             }
 
 
             let tableDetails = document.createElement('table');
+                tableDetails.className = "propTable";
             let theadDetails = document.createElement('thead');
             let tbodyDetails = document.createElement('tbody');
 
@@ -3512,8 +3524,19 @@ btnOrders.addEventListener('click', () => {
             tableDetails.appendChild(theadDetails);
             tableDetails.appendChild(tbodyDetails);
 
-            viewOrders.appendChild(tableDetails);
-            
+            div.appendChild(tableDetails);
+            // viewOrders.appendChild(tableDetails);
+
+            viewOrders.appendChild(div);
+
+
+            div.getElementsByClassName('dropDown')[0].onclick = function(evt) {
+                console.log("blslf");
+                if (div.classList.contains('visible'))
+                    div.classList.remove('visible');
+                else
+                    div.classList.add('visible');
+            }
         })
         
     })

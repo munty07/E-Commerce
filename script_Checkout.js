@@ -530,54 +530,31 @@ document.getElementById("btnSend").addEventListener('click', () => {
 
             total = parseFloat(sumProd) + parseFloat(taxaTransport);
 
-            console.log("LISTA DE CLIENTI CU UID-urile: ", lstClients);
-            if(lstClients){
-                console.log("Total prod ", total);
-                if(lstClients.includes(uid)){
-                    
-                    push(ref(db, "ComenziPlasate/" + uid + "/Comenzi"),{
-                        Data: data,
-                        Ora: hour,
-                        MetodaExpediere: expediere,
-                        Plata: plata,
-                        StatusPlata: statusPlata,
-                        SubtotalProduse: Number(sumProd),
-                        TaxaTransport: taxaTransport,
-                        Total: total,
-                        Produse: parcurgeLista()
-                    });
-                }else{
-                    
-                    set(ref(db, "ComenziPlasate/" + uid + "/Client"),{
-                      
-                        "Nume": clientName,
-                        "Adresa": clientAddress,
-                        "Oras": clientCity,
-                        "Judet": clientCounty,
-                        "CodPostal": clientZip,
-                        "Telefon": clientPhone,
-                        "Mail": clientMail
-                    });
-                    push(ref(db, "ComenziPlasate/" + uid + "/Comenzi"),{
-                        Data: data,
-                        Ora: hour,
-                        MetodaExpediere: expediere,
-                        Plata: plata,
-                        StatusPlata: statusPlata,
-                        SubtotalProduse: Number(sumProd),
-                        TaxaTransport: taxaTransport,
-                        Total: total,
-                        Produse: parcurgeLista()
-                    });
+            push(ref(db, "Comenzi/"),{
+                Client: {
+                    "Nume": clientName,
+                    "Adresa": clientAddress,
+                    "Oras": clientCity,
+                    "Judet": clientCounty,
+                    "CodPostal": clientZip,
+                    "Telefon": clientPhone,
+                    "Mail": clientMail
+                },
+                Produse: parcurgeLista(),
+                Detalii: {
+                    "Data": data,
+                    "Ora": hour,
+                    "MetodaExpediere": expediere,
+                    "Plata": plata,
+                    "StatusPlata": statusPlata,
+                    "SubPlata": Number(sumProd),
+                    "TaxaTransport": taxaTransport,
+                    "Total": total
                 }
-            }
-            
-            
-            
+            }); 
         })
 
         DeleteData();
-
     }
 })
 

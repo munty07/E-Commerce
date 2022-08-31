@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" href="style_register.css">
+    <title>Creare cont</title>
+  </head>
+
+  <body>
+    <div class="container">
+        <div class="title mt-3.5">Inregistreaza-te</div>
+        <form id="form" action="#" method="get">
+            <p class="error" id="error-all"></p>
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Nume si prenume</span>
+                    <input type="text"  id="nameBox" placeholder="Introduceti numele si prenumele dvs." >  
+                    <p class="error" id="error-name"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">Nume utilizator</span>
+                    <input type="text" id="userBox" placeholder="Introduceti un nume de utilizator" >  
+                    <p class="error" id="error-user"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">E-mail</span>
+                    <input type="email" id="mailBox" placeholder="Introduceti adresa dvs. de mail">  
+                    <p class="error" id="error-mail"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">Numar de telefon</span>
+                    <input type="text" id="phoneBox" placeholder="Introduceti nr. dvs. de telefon">  
+                    <p class="error" id="error-phone"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">Judet</span>
+                    <input type="text" id="countyBox" placeholder="Introduceti judetul">  
+                    <p class="error" id="error-county"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">Oras</span>
+                    <input type="text" id="cityBox" placeholder="Introduceti orasul">  
+                    <p class="error" id="error-city"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">Adresa</span>
+                    <input type="text" id="addressBox" placeholder="Introduceti adresa dvs.">  
+                    <p class="error" id="error-address"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">Cod postal</span>
+                    <input type="text" id="codeBox" placeholder="Introduceti codul postal">  
+                    <p class="error" id="error-code"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">Parola</span>
+                    <input type="password" id="passBox" placeholder="Introduceti parola">  
+                    <p class="error" id="error-pass"></p>
+                </div>
+                <div class="input-box">
+                    <span class="details">Confirmare parola</span>
+                    <input type="password" id="pass2Box" placeholder="Reintroduceti parola">  
+                    <p class="error" id="error-pass2"></p>
+                </div>
+            </div>
+            <div class="button">
+                <input type="button" id="registerBtn" value="Creeaza cont">
+            </div>
+        </form>
+    </div>
+
+    <!-- SCRIPT PENTRU INREGISTRAREA UNUI NOU USER -->
+   <script type="module" src="script_Register.js"></script>
+ </body>
+</html>

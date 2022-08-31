@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Page</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="style_home.css">
+    <link rel="stylesheet" href="style_contact.css">
+    <link rel="stylesheet" href="style_subnav.css">
+    <!-- Simple Mail Transfer Protocol -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <i id="spinner" class="fas fa-spinner fa-spin"></i>
+    </div>
+    <script type="module" src="script_Contact.js"></script>
+
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-angle-up"></i></button>
+    <script type="text/javascript" src="scriptTopBtn.js"></script>
+    <section id="header">
+        <a href="form_home.html"><img src="img/home_logo.jpg" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="form_home.html">Acasa</a></li>
+                <li><a href="form_products.html">Produse</a></li>
+                <li><a href="form_about.html">Despre</a></li>
+                <li><a class="active" href="form_contact.html">Contact</a></li>
+                <ul class="subnav">
+                    <li><a><i class="fa fa-shopping-bag"></i> <i id="sub-1" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop-1">
+                        <li><i class="fas fa-heart"></i></li>
+                        <li><a href="form_favorite.html">Produse Favorite</a></li>
+                        <li><a href="form_cart.html">Cos cumparaturi</a></li>
+                    </ul>
+                </ul>
+                
+                <ul class="subnav">
+                    <li><a id="signoutlink" class="nav-link"><i class="fas fa-user"></i> <i id="sub" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop">
+                        <li><label id="user-db">-</label></li>
+                        <li><a href="form_profile.html">Editare Profil</a></li>
+                        <li><a id="signout" href="form_logare.html">Deconectare</a></li>
+                    </ul>
+                </ul>
+                <a href="#" id="close"><i class="fas fa-times-circle"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i id="bar" class="fas fa-bars"></i>
+        </div>
+    </section>
+    <!-- script for responsive menu -->
+    <script src="scriptHome.js"></script>
+    <script src="scriptSubnav.js"></script>
+
+    <section id="hd" class="section-hd">
+        <h2>Aveti nevoie de ajutor?</h2>
+        <p>Cititi informatiile oferite de noi din sectiunea de <a href="form_contact.html?#help">Help</a></p>
+        <p>SAU</p>
+        <p>Contactati-ne completand formularul din sectiunea de <a href="form_contact.html?#contact">Contact</a></p>
+    </section>
+
+    <section id="bc">
+    </section>
+    
+    <section id="help" class="course">
+        <h1>Livrari si plata: Tot ce trebuie să știti</h1>
+        <p>Intrebari frecvente</p>
+
+        <div class = "row">
+            <div class = "course-col">
+                <h3>LIVRARI</h3>
+                <h4>Care sunt metodele de expediere?</h4>
+                <p>
+                    <i class="fas fa-arrow-right"></i>Express la domiciliu<br>
+                    <i class="fas fa-arrow-right"></i>La domiciliu<br>
+                    <i class="fas fa-arrow-right"></i>La posta<br>
+                    <i class="fas fa-arrow-right"></i>La magazin
+                </p>
+                <h4>Care este termenul de livrare al comenzilor?</h4>
+                <p>
+                    In functie de metoda de expediere aleasa, va punem la dispozitie un numar aproximativ de zile lucratoare:<br>
+                    <b>Domiciliu(express)</b> <i class="fas fa-arrow-right"></i> 2-3 zile lucratoare <b>(39 lei)</b><br>
+                    <b>Domiciliu</b> <i class="fas fa-arrow-right"></i> 4-7 zile lucratoare <b>(19 lei)</b><br>
+                    <b>Posta</b> <i class="fas fa-arrow-right"></i> 3-5 zile lucratoare <b>(13 lei)</b><br>
+                    <b>Magazin</b> <i class="fas fa-arrow-right"></i> 3-5 zile lucratoare <b>(gratuit)</b>
+                </p>
+            </div>
+
+            <div class = "course-col">
+                <h3>PLATI</h3>
+                <h4>Care sunt modalitatile de plata?</h4>
+                <p>
+                    In functie de metoda de expediere aleasa, va punem la dispozitie urmatoarele modalitati de plata:<br>
+                    <b>Online cu cardul</b> <i class="fas fa-arrow-right"></i> indiferent de metoda de exprediere aleasa<br>
+                    <b>Ramburs la curier</b> <i class="fas fa-arrow-right"></i> daca alegeti livrarea (express) la domiciliu<br>
+                    <b>La posta</b> <i class="fas fa-arrow-right"></i> daca alegeti livrarea prin posta(cash/card)<br>
+                    <b>La magazin</b> <i class="fas fa-arrow-right"></i> daca alegeti expedierea direct in magazinul nostru(cash/card)
+                </p>
+                <h4>Cum pot obtine o factura?</h4>
+                <p>
+                    Dupa procesul de achizitie veti primi un mail de confirmare pentru plasarea comenzii, in care va fi atasata si o factura.
+                </p>
+            </div>
+        </div>
+    </section>
+        
+    <section id="contact">
+        <div class="course">
+            <h2>Doriti sa ne adresati cateva intrebari?</h2>
+            <h4>Completati formularul.</h4>
+        </div>
+        
+        <div id="con"> 
+            <form id="form1">
+                <div>
+                    <div class="container">
+                    <div class="contact-parent">
+        <!-- ---------------------CHILD 1--------------------- -->                
+                        <div class="contact-child child1">
+                            <p>
+                                <i class="fas fa-map-marker-alt"></i> Adresa<br />
+                                <span>
+                                    Vasile Parvan
+                                    <br />
+                                    Timisoara, Romania
+                                </span>
+                            </p>
+        
+                            <p>
+                                <i class="fas fa-phone-alt"></i> Nr. Telefon<br />
+                                <span>
+                                    0786673433
+                                </span>
+                            </p>
+        
+                            <p>
+                                <i class="far fa-envelope"></i> Suport general<br />
+                                <span>muntyancraciunela@gmail.com</span>
+                            </p>
+                        </div>
+        <!-- ---------------------/CHILD 1--------------------- --> 
+        
+        <!-- ---------------------CHILD 2--------------------- --> 
+                        <div class="contact-child child2">
+                            <div class="inside-contact">
+                                <h2>Contacteaza-ne</h2>
+                                <p id="success-mail"></p>
+                                <p>Nume si Prenume *</p>
+                                <input type="text" id="txtNume">
+                                
+                                <p>Email *</p>
+                                <input type="email" id="txtEmail">
+    
+                                <p>Subiect</p>
+                                <input type="text" id="txtSubiect">
+    
+                                <p>Mesaj *</p>
+                                <textarea id="txtMesaj" rows="5" cols="50"></textarea>
+                                    
+                                <input type = "button" id="btnTrimite" class = "logBtn mt-2 mb-3" value="Trimite">
+                                <input type = "button" onclick="window.location.reload(true)" id="btnReset" class = "logBtn mt-2 mb-3" value="Renunta">
+                            </div>
+                        </div>
+        <!-- ---------------------/CHILD 2--------------------- -->        
+                    </div>
+                    </div>
+                </div>
+            </form>
+        </div> 
+    </section>
+
+    
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logof" src="img/home_logo.jpg" alt="">
+            <p>I was sad but then I bought something online.<br>I feel better now.</p>
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <a href="https://www.facebook.com/"><i class="fab fa-facebook fb"></i></a>
+                <a href="https://www.instagram.com/"><i class="fab fa-instagram ig"></i></a>
+                <a href="https://www.snapchat.com/"><i class="fab fa-snapchat sc"></i></a>
+                <a href="https://twitter.com/?lang=ro"><i class="fab fa-twitter tw"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- bootstrap link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        /* label{
+            display: inline-block;
+            width: 50px;
+        }
+        
+      form .gender-details .gender-title{
+          font-size: 20px;
+          font-weight: 500;
+      }
+      form .gender-details .category{
+          display: flex;  
+          width: 80%;
+          margin: 14px 0;
+          justify-content: space-between;
+      }
+      .gender-details .category label{
+          display: flex;
+          align-items: center;
+      }
+      .gender-details .category .dot{
+          height: 18px;
+          width: 18px;
+          background: #d9d9d9;
+          border-radius: 50%;
+          margin-right: 10px;
+          border: 5px solid transparent;
+          transition: all 0.3s ease;
+      }
+      #feminin:checked ~ .category label .one,
+      #masculin:checked ~ .category label .two,
+      #anonim:checked ~ .category label .three{
+          border-color: #d9d9d9;
+          background: #9b59b6;
+      } */
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item mx-1">
+                        <a id="userlink" class="nav-link" href="#">Username</a>
+                    </li>
+                    <li class="nav-item mx-1">
+                        <a id="signoutlink" class="nav-link" href="#">Sign Out</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+      </nav>
+
+      <h3 id="hh"></h3>
+
+    <!-- <label>ID</label>
+    <input id="idBox" type="text">
+    <br><br>
+    <label>Mail</label>
+    <input id="mailBox" type="text">
+    <br><br>
+    <label>Parola</label>
+    <input id="passBox" type="password">
+    <br><br> -->
+    <!-- <div class="gender-details">
+        <input type="radio" name="genderBox" id="f">
+        <input type="radio" name="genderBox" id="m">
+        <input type="radio" name="genderBox" id="a" checked="checked">
+        <span class="gender-title">Gen</span>
+        <div class="category">
+            <label id="feminin" for="f">
+                <span class="dot one"></span>
+                <span class="genderBox">Feminin</span>
+            </label>
+            <label id="masculin" for="m">
+                <span class="dot two"></span>
+                <span class="genderBox">Masculin</span>
+            </label>
+            <label id="anonim" for="a">
+                <span class="dot three"></span>
+                <span class="genderBox">Anonim</span>
+            </label>
+        </div>
+    </div> -->
+    <!-- <br><br>
+    <hr>
+    <button id="insertBtn">INSERT</button>
+    <button id="selectBtn">SELECT</button>
+    <button id="updateBtn">UPDATE</button>
+    <button id="deleteBtn">DELETE</button>
+    <button id="createBtn">Create</button> -->
+
+    <script>
+        //references
+        let userLink = document.getElementById('userlink');
+        let signOutLink = document.getElementById('signoutlink');
+        let header = document.getElementById('hh');
+        var currentUser = null;
+
+        //functions
+        function getUsername(){
+            let keepLoggedIn = localStorage.getItem("keepLoggedIn");
+            if(keepLoggedIn == "yes"){
+                currentUser = JSON.parse(localStorage.getItem('username'));
+            }else{
+                currentUser = JSON.parse(sessionStorage.getItem('username'));
+            }
+        }
+
+        function signOut(){
+            sessionStorage.removeItem('username');
+            localStorage.removeItem('username');
+            localStorage.removeItem('keepLoggedIn');
+            window.location = "test.html";
+        }
+
+        //windows loads
+        window.onload = function(){
+            getUsername();
+            if(currentUser == null){
+                userLink.innerText = "Creati un nou cont";
+                userLink.classList.replace("nav-link","btn");
+                userLink.classList.add("btn-primary");
+                userLink.href = "form_register.html";
+
+                signOutLink.innerText = "Login";
+                signOutLink.classList.replace("nav-link","btn");
+                signOutLink.classList.add("btn-success");
+                signOutLink.href = "form_logare.html";
+            }else{
+                userLink.innerText = currentUser.Utilizator;//din bd
+                header.innerText = "welcome " + currentUser.Nume;//din bd
+                userLink.classList.replace("btn","nav-link");
+                userLink.classList.remove("btn-primary");
+                userLink.href = "#";
+
+                signOutLink.innerText = "Sign Out";
+                signOutLink.classList.replace("btn","nav-link");
+                signOutLink.classList.remove("btn-success");
+                signOutLink.href = "javascript:signOut()";
+            }
+        }
+
+    </script>
+
+
+
+    <!-- <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDdmhH5rw_3tm4OrvMEAvyxX-al_PQwszQ",
+          authDomain: "test-firebase-ee769.firebaseapp.com",
+          databaseURL: "https://test-firebase-ee769-default-rtdb.firebaseio.com",
+          projectId: "test-firebase-ee769",
+          storageBucket: "test-firebase-ee769.appspot.com",
+          messagingSenderId: "1041889192560",
+          appId: "1:1041889192560:web:9dc20cfc9a7dd87312a2b5"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, ref, set, get, child, update, remove} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js"
+      
+        const db = getDatabase();
+
+        //-------------references
+        var id = document.getElementById("idBox");
+        var mail = document.getElementById("mailBox");
+        var pass = document.getElementById("passBox");
+        var gen;
+        if(document.getElementById("f").checked){
+            gen = document.getElementById("feminin").textContent;
+        }else {
+            if(document.getElementById("m").checked){
+                gen = document.getElementById("masculin").textContent;
+            }else if(document.getElementById("a").checked){
+                gen = document.getElementById("anonim").textContent;
+            }
+        }
+
+        //-------------insert function
+        function insertData(){
+            // if(validateMail(mail) == false){
+            //     alert("Exista deja un cont cu aceasta adresa de mail!");
+            //     //return;
+            // }
+            set(ref(db, "Conturi2/" + id.value),{
+                Id: id.value,
+                Mail: mail.value,
+                Pass: pass.value,
+                Gen: gen
+            })
+            .then(() =>{
+                alert("data stored successfully!");
+            })
+            .catch((error)=>{
+                alert("unsuccessful, error:",error);
+            })
+        }
+
+        //-------------select function
+        function selectData(){
+            const dbRef = ref(db);
+            get(child(dbRef, "Conturi/" + id.value)).then((snapshot)=>{
+                if(snapshot.exists()){
+                    mail.value = snapshot.val().Mail; //Mail - numele campului din DB
+                    pass.value = snapshot.val().Pass;
+                }else{
+                    alert("No data found!");
+                }
+            })
+            .catch((error) => {
+                alert("unsuccessful, error:",error);
+            })
+        }
+
+
+        //-------------update function
+        function updateData(){
+            update(ref(db, "Conturi/" + id.value),{
+                Id: id.value,
+                Mail: mail.value,
+                Pass: pass.value
+            })
+            .then(() =>{
+                alert("data updated successfully!");
+            })
+            .catch((error)=>{
+                alert("unsuccessful, error:",error);
+            })
+        }
+
+        //-------------delete function
+        function deleteData(){
+            remove(ref(db, "Conturi/" + id.value))
+            .then(() =>{
+                alert("data removed successfully!");
+            })
+            .catch((error)=>{
+                alert("unsuccessful, error:",error);
+            })
+        }
+        function validateMail(mail){
+            regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if(regex.test(mail) == true){
+                //email is good
+                return true;
+            }else{
+                //email isn't good
+                return false;
+            }
+        }
+
+        //-------------assign events to btns
+        insertBtn.addEventListener('click', insertData);
+        selectBtn.addEventListener('click', selectData);
+        updateBtn.addEventListener('click', updateData);
+        deleteBtn.addEventListener('click', deleteData);
+      </script> -->
+</body>
+</html>

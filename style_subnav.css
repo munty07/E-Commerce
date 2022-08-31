@@ -1,0 +1,126 @@
+#drop {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    right: -300px;
+    height: 15vh;
+    width: 150px;
+    background-color: #E3E6F3;
+    box-shadow: 0 40px 60px rgba(0, 0, 0, 0.2);
+    padding: 30px 7px 30px 7px;
+    transition: 0.3s ease;
+}
+#drop-1{
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    right: -300px;
+    height: 15vh;
+    width: 150px;
+    background-color: #E3E6F3;
+    box-shadow: 0 40px 60px rgba(0, 0, 0, 0.2);
+    padding: 30px 2px 30px 2px;
+    transition: 0.3s ease; 
+}
+#drop.active3{
+    right: 0;
+    top: 82px;
+    bottom: -150px;
+    display: flex;
+    justify-content: space-between;
+}
+#drop-1.active3{
+    right: 100px;
+    top: 82px;
+    bottom: -150px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#drop-1.inactive,
+#drop.inactive{
+    display: none;
+}
+.subnav{
+    align-items: center;
+    cursor: pointer;
+}
+#drop li a,
+#drop-1 li a{
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    color: black; 
+    transition: 0.3s ease;
+}
+#drop li a:hover,
+#drop li a.active,
+#drop-1 li a:hover,
+#drop-1 li a.active{
+    color: #367976;
+}
+
+
+@media(max-width: 799px){
+    /* ----NAVBAR---- */
+    #drop {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        position: relative;
+        top: 0;
+        right: -300px;
+        height: 15vh;
+        width: 150px;
+        background-color: #E3E6F3;
+        box-shadow: none;
+        padding: 10px 3px 10px 3px;
+        transition: 0.3s ease;
+    }
+    #drop.active3{
+        right: 0;
+        top: -10px;
+        bottom: 0;
+        left: 50px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+
+    #drop-1{
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        position: relative;
+        top: 0;
+        right: -300px;
+        height: 15vh;
+        width: 180px;
+        background-color: #E3E6F3;
+        box-shadow: none;
+        padding: 0 3px 0 3px;
+        transition: 0.3s ease; 
+    }
+    
+    #drop-1.active3{
+        right: 0;
+        top: -21px;
+        bottom: -25px;
+        left: 50px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #drop-1.inactive,
+    #drop.inactive{
+        display: none;
+    }
+}

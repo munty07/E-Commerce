@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details Page</title>
+    <!-- script folosit pentru a putea utiliza incarcarea doar a unei sectiuni din pagina -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="style_home.css">
+    <link rel="stylesheet" href="style_subnav.css">
+    <link rel="stylesheet" href="style_details.css">
+    <!-- Simple Mail Transfer Protocol -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    
+</head>
+<body>
+    <script type="module" src="scriptDetailsProd.js"></script>
+
+    <script type="module" src="prodRecomandate.js"></script>
+    
+    <section id="header">
+        <a href="form_home.html"><img src="img/home_logo.jpg" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="form_home.html">Acasa</a></li>
+                <li><a class="active" href="form_products.html">Produse</a></li>
+                <li><a href="form_about.html">Despre</a></li>
+                <li><a href="form_contact.html">Contact</a></li>
+                <ul class="subnav">
+                    <li><a><i class="fa fa-shopping-bag"></i> <i id="sub-1" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop-1">
+                        <li><i class="fas fa-heart"></i></li>
+                        <li><a href="form_favorite.html">Produse Favorite</a></li>
+                        <li><a href="form_cart.html">Cos cumparaturi</a></li>
+                    </ul>
+                </ul>
+                
+                <ul class="subnav">
+                    <li><a id="signoutlink" class="nav-link"><i class="fas fa-user"></i> <i id="sub" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop">
+                        <li><label id="user-db">-</label></li>
+                        <li><a href="form_profile.html">Editare Profil</a></li>
+                        <li><a id="signout" href="form_logare.html">Deconectare</a></li>
+                    </ul>
+                </ul>
+                
+                <a href="#" id="close"><i class="fas fa-times-circle"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i id="bar" class="fas fa-bars"></i>
+        </div>
+    </section>
+
+    <!-- script for responsive menu -->
+    <script src="scriptHome.js"></script>
+    <script src="scriptSubnav.js"></script>
+    
+    <section id="prodetails" class="section-p1">
+        <div class="single-pro-image">
+            <div class="slideshow-container">
+                <div id="slider">
+                    <div class="mySlides fade">
+                        <div class="numbertext">1 / 2</div>
+                        <img src=" " id="mainImg" style="width:100%">
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <div class="numbertext">2 / 2</div>
+                        <img src=" " id="secondaryImg" style="width:100%">
+                    </div>
+                </div>
+                
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+            
+            </div>
+            <br>
+            
+            <div style="text-align:center">
+                <span class="dot" onclick="currentSlide(1)"></span> 
+                <span class="dot" onclick="currentSlide(2)"></span>  
+            </div>
+        </div>
+
+
+        <div class="single-pro-details">
+            <h6 id="brandDetails">Brand</h6>
+            <h4 id="nameDetails">Nume</h4>
+            <h2 id="priceDetails">Pret</h2>
+            <br>
+            <hr>
+            <br><br>
+            <label><strong>Culoare</strong></label><br><br>
+            <div id="colorDetails">
+                <button id="blackColor"></button>
+                <button id="whiteColor"></button>
+                <button id="blueColor"></button>
+                <button id="redColor"></button>
+                <button id="greenColor"></button>
+                <button id="purpleColor"></button>
+                <button id="beigeColor"></button>
+                <button id="pinkColor"></button>
+            </div>
+            <br><br>
+            <label><strong>Marime</strong></label><br><br>
+            <div id="sizeDetails">
+                <button id="xsSize">XS</button>
+                <button id="sSize">S</button>
+                <button id="mSize">M</button>
+                <button id="lSize">L</button>
+                <button id="xlSize">XL</button>
+            </div>
+            <br><br><br>
+            <input type="number" id="nrDetails" value="1" min="1" max="varMax">
+            <button id="addDetails" class="normal" disabled>Adauga in cos</button>
+            <br><br>
+            <label id="lblNotify"></label>
+            <div id="divNotify">
+
+            </div>
+            <label id="errorAdd"></label>
+            <br><br><br>
+            <hr>
+            <br>
+            <div id="productDetails">
+            </div>
+        </div>
+    </section>
+
+    <script src="scriptDetails.js"></script>
+    
+    <section id="product1" class="section-p1">
+        <h2>Produse recomandate</h2>
+        <p>Cele mai apreciate produse</p>
+        <div id="divGenerate" class="pro-container"> 
+            <!-- ELEMENTE GENERATE DINAMIC -->
+        </div>
+    </section>
+    
+    <script>
+        // The function below will start the confirmation dialog
+        function confirmAction() {
+            let confirmAction = confirm("Sunteti sigur ca doriti sa adaugati produsul in cosul de cumparaturi?");
+            let confirmAction2 = confirm("Doriti sa vizualizati cosul de cumparaturi?");
+            if (confirmAction) {
+                if(confirmAction2){
+                    window.location.href = "form_cart.html";
+                }
+          }
+        }
+
+        function action() {
+            window.location.href = "form_details.html";
+        }
+      </script>
+    
+      <!-- FOOTER -->
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logof" src="img/home_logo.jpg" alt="">
+            <p>I was sad but then I bought something online.<br>I feel better now.</p>
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <a href="https://www.facebook.com/"><i class="fab fa-facebook fb"></i></a>
+                <a href="https://www.instagram.com/"><i class="fab fa-instagram ig"></i></a>
+                <a href="https://www.snapchat.com/"><i class="fab fa-snapchat sc"></i></a>
+                <a href="https://twitter.com/?lang=ro"><i class="fab fa-twitter tw"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

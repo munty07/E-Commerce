@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- script folosit pentru jsPDF -->
+    <script src=" https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script> 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style_checkout.css">
+    <!-- Simple Mail Transfer Protocol -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <title>checkout</title>
+
+</head>
+<body>
+    
+    
+    <div id="divProces">
+
+    </div>
+    <div class="row">
+        <div class="col-75">
+            <div class="container">
+                <form action="#">
+                    <div class="row">
+                        <div class="col-50">
+                            <h3>Date de facturare</h3><p class="error" id="error-all"></p>
+                            <label for="fname"><i class="fa fa-user"></i> Nume si prenume</label>
+                            <p class="error" id="error-name"></p>
+                            <input type="text" id="fname" name="firstname">
+                            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                            <p class="error" id="error-mail"></p>
+                            <input type="text" id="email" name="email">
+                            <label for="adr"><i class="fa fa-address-card-o"></i> Adresa</label>
+                            <p class="error" id="error-address"></p>
+                            <input type="text" id="adr" name="address">
+                            <label for="city"><i class="fa fa-institution"></i> Oras</label>
+                            <p class="error" id="error-city"></p>
+                            <input type="text" id="city" name="city">
+                            <label for="county"><i class="fa fa-institution"></i> Judet</label>
+                            <p class="error" id="error-county"></p>
+                            <input type="text" id="county" name="county">
+
+                            <div class="row">
+                            <div class="col-50">
+                                <label for="phone">Nr. Telefon</label>
+                                <input type="text" id="phone" name="phone">
+                                <p class="error" id="error-phone"></p>
+                            </div>
+                            <div class="col-50">
+                                <label for="zip">Cod Postal</label>
+                                <input type="text" id="zip" name="zip">
+                                <p class="error" id="error-code"></p>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="col-50">
+                            <h3>Plata</h3>
+                            <p>Metode de expediere:</p>
+                            <form>
+                                <label class="radio-inline">
+                                    <input type="radio" id="magazin" name="optradio1" checked>Magazin
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" id="express" name="optradio1">Express la domiciliu
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" id="domiciliu" name="optradio1">Domiciliu
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="posta" name="optradio1">Posta
+                                </label>
+                            </form>
+                            <br><br>
+                            <p>Modalitati de plata:</p>
+                            <form>
+                                <label class="radio-inline">
+                                  <input type="radio" id="card" name="optradio2" checked>Card
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" id="cash" name="optradio2">Cash
+                                </label>
+                            </form>
+                            <br><br>
+                            <label for="fname">Carduri acceptate</label>
+                            <div class="icon-container">
+                                <i class="fa fa-cc-visa" style="color:navy;"></i>
+                                <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                            </div>
+                            <label for="cname">Nume posesor card</label>
+                            <p class="error" id="error-cname"></p>
+                            <input type="text" id="cname" name="cardname" placeholder="Nume Prenume">
+                            <label for="ccnum">Numar card</label>
+                            <p class="error" id="error-ccnum"></p>
+                            <input type="text" id="ccnum" name="cardnumber" placeholder="1111 2222 3333 4444">
+                            
+                            <div class="row">
+                                <div class="col-25">
+                                    <label for="expmonth">Luna de expirare</label>
+                                    <input type="text" id="expmonth" name="expmonth" placeholder="09"> 
+                                    <p class="error" id="error-expmonth"></p>
+                                </div>                   
+                                <div class="col-25">
+                                    <label for="expyear">An de expirare</label>
+                                    <input type="text" id="expyear" name="expyear" placeholder="2024">
+                                    <p class="error" id="error-expyear"></p>
+                                </div>
+                                <div class="col-25">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="352">
+                                    <p class="error" id="error-cvv"></p>
+                                </div>
+                            </div>
+                        </div>
+                
+                    </div>
+                    <button id="btnContinue" class="btn">Continua cumparaturile</button>
+                    <button id="btnSend" class="btn">Finalizeaza comanda</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-25">
+            <div id="divContainer" class="container">
+                <h4>Cos de cumparaturi<span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
+                <div id="divCart"></div>
+
+                <hr>
+
+                <div id="divTransport"></div>
+                
+                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                
+                <div id="divTotal"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT PENTRU FINALIZAREA COMENZII -->
+    <script type="module" src="script_Checkout.js"></script>
+</body>
+</html>

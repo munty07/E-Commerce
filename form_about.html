@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Page</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="style_home.css">
+    <link rel="stylesheet" href="style_subnav.css">
+    <link rel="stylesheet" href="style_about.css">
+</head>
+<body>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+        import {getDatabase, ref, set, get, child} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js"
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB4QbCtMwmAygKrUaubiIHyHzgHTxYRzxs",
+            authDomain: "test-autentificare.firebaseapp.com",
+            databaseURL: "https://test-autentificare-default-rtdb.firebaseio.com",
+            projectId: "test-autentificare",
+            storageBucket: "test-autentificare.appspot.com",
+            messagingSenderId: "297047922567",
+            appId: "1:297047922567:web:1ec8c6da201fe836c56522"
+        };
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        /////**************************/////
+        
+        const uid = sessionStorage.getItem("uid");
+        console.log("UID logat");
+        console.log(uid);
+        const db = getDatabase();
+        const dbRef = ref(db);
+        get(child(dbRef, "Conturi/" + uid))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const displayName = snapshot.val().Nume;
+                console.log(displayName);
+                const username =  snapshot.val().Utilizator;
+                console.log(username);
+                if(username == ''){
+                    const user_db = document.getElementById('user-db');
+                    user_db.innerHTML = displayName;
+                }else{
+                    const user_db = document.getElementById('user-db');
+                    user_db.innerHTML = username;
+                }
+            } else {
+                console.log("No data available");
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+        /////**************************/////
+
+        document.getElementById("signout").addEventListener('click', () => {
+            signOut(auth)
+            .then(()=>{
+                console.log("Utilizatorul a fost deconectat");
+                window.location.replace("form_login.html");
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        });
+    </script>
+
+<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-angle-up"></i></button>
+<script type="text/javascript" src="scriptTopBtn.js"></script>
+    <section id="header">
+        <a href="form_home.html"><img src="img/home_logo.jpg" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="form_home.html">Acasa</a></li>
+                <li><a href="form_products.html">Produse</a></li>
+                <li><a class="active" href="form_about.html">Despre</a></li>
+                <li><a href="form_contact.html">Contact</a></li><ul class="subnav">
+                    <li><a><i class="fa fa-shopping-bag"></i> <i id="sub-1" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop-1">
+                        <li><i class="fas fa-heart"></i></li>
+                        <li><a href="form_favorite.html">Produse Favorite</a></li>
+                        <li><a href="form_cart.html">Cos cumparaturi</a></li>
+                    </ul>
+                </ul>
+                
+                <ul class="subnav">
+                    <li><a id="signoutlink" class="nav-link"><i class="fas fa-user"></i> <i id="sub" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop">
+                        <li><label id="user-db">-</label></li>
+                        <li><a href="form_profile.html">Editare Profil</a></li>
+                        <li><a id="signout" href="form_logare.html">Deconectare</a></li>
+                    </ul>
+                </ul>
+                <a href="#" id="close"><i class="fas fa-times-circle"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i id="bar" class="fas fa-bars"></i>
+        </div>
+    </section>
+    <!-- script for responsive menu -->
+    <script src="scriptHome.js"></script>
+    <script src="scriptSubnav.js"></script>
+
+    <div>
+        <!-- <br><br><br><br><br><br> -->
+        <section>
+            <div class="section-container">
+                <div class="columns image" style="background-image:url('img/about_marca.jpg')"></div>
+                <div class="columns content">
+                    <div class="content-container">
+                        <h5>Marca</h5>
+                        <p>
+                            Pentru a putea oferi mereu în magazinele sale ultimele tendințe, <b>MIMI</b> folosește un model de afacere flexibil adaptându-se la orice noutate apărută pe parcursul unui sezon prin introducerea de produse noi în magazine, în cel mai scurt timp posibil. 
+                        </p>
+                        <p>
+                            Modelele pentru fiecare sezon sunt concepute în întregime de propriile echipe de creație care folosesc ca și sursă principală de inspirație tendințele predominante de pe piață descoperite cu ajutorul informațiilor oferite de magazine și chiar de clienții.                        
+                        </p>
+                        <p>
+                            Echipa de designeri care lucrează pentru <b>MIMI</b> este alcătuită din peste 60 de specialiști care evaluează în mod continuu nevoile, dorințele și pretențiile consumatorilor, oferind spre vânzare în magazine peste 4 000 de produse diferite în fiecare an.
+                        </p>
+                    </div> 
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-container">
+                <div class="columns content">
+                    <div class="content-container">
+                        <br><br><br>
+                        <h5>Consumatorul vizat</h5>
+                        <p>
+                            Cumpărătorii mărcii <b>MIMI</b> sunt tineri îndrăzneți, la curent cu ultimele tendințe și interesați de muzică, rețele de socializare și noile tehnologii.
+                        </p>
+                        <p>
+                            Acest magazin este dedicat femeilor sau si barbatilor care doresc sa ofere cadou unei femei.
+                        </p>
+                        <br><br><br>
+                    </div>
+                </div>
+                <div class="columns image" style="background-image:url('img/about_clienti.jpg')"></div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-container">
+                <div class="columns image" style="background-image:url('img/about_product.jpg')"></div>
+                <div class="columns content">
+                    <div class="content-container">
+                        <br><br><br>
+                        <h5>PRODUSUL</h5>
+                        <p>
+                            Introducerea de materiale organice.<br>
+                            Bumbac organic.<br>
+                            Firma <b>MIMI</b> susține agricultura ecologică și folosește bumbac organic în anumite articole de îmbrăcăminte (bumbac 100%, fără nici un fel de pesticide, produse chimice sau înălbitori).<br>
+                            Aceste produse pot fi identificate cu ușurință în magazin deoarece au o etichetă distinctă.
+                        </p>
+                        <br><br><br>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section>
+            <div class="section-container">
+                <div class="columns content">
+                    <div class="content-container">
+                        <br><br>
+                        <h5>POLITICA CU PRIVIRE LA MEDIUL ÎNCONJURĂTOR</h5>
+                        <p>
+                            Prin modelul de afacere practicat, firma <b>MIMI</b> susține dezvoltarea durabilă atât a societăți și a mediului înconjurător cu care vine în contact. 
+                        </p>
+                        <p>
+                            În continuare sunt prezentate câteva dintre obiectivele și activitățile din cadrul angajamentului față de mediu, legate direct de magazine și clienți:
+                        </p>
+                        <p>
+                            -Economisirea energiei electrice.<br>
+                            -Magazine eco-eficiente.<br>
+                            -Reducerea cantității de deșeuri și reciclare.<br>
+                            -Informarea personalului cu privire la angajamentul față de mediu.<br>
+                            -Conștientizarea echipei în acest sens.<br>
+                        </p>
+                        <br><br>
+                    </div>
+                </div>
+                <div class="columns image" style="background-image:url('img/about_planetB.jpg')"></div>
+            </div>
+        </section>
+        <!-- <br><br><br><br><br><br> -->
+    </div>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logof" src="img/home_logo.jpg" alt="">
+            <p>I was sad but then I bought something online.<br>I feel better now.</p>
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <a href="https://www.facebook.com/"><i class="fab fa-facebook fb"></i></a>
+                <a href="https://www.instagram.com/"><i class="fab fa-instagram ig"></i></a>
+                <a href="https://www.snapchat.com/"><i class="fab fa-snapchat sc"></i></a>
+                <a href="https://twitter.com/?lang=ro"><i class="fab fa-twitter tw"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

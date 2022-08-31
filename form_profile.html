@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile Page</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="style_home.css"> 
+    <link rel="stylesheet" href="style_subnav.css">
+    <link rel="stylesheet" href="style_about.css">
+    <link rel="stylesheet" href="style_profile.css">
+</head>
+<body>
+    <script type="module" src="script_Profile.js"></script>
+    
+    <section id="header">
+        <a href="form_home.html"><img src="img/home_logo.jpg" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="form_home.html">Acasa</a></li>
+                <li><a href="form_products.html">Produse</a></li>
+                <li><a href="form_about.html">Despre</a></li>
+                <li><a href="form_contact.html">Contact</a></li><ul class="subnav">
+                    <li><a><i class="fa fa-shopping-bag"></i> <i id="sub-1" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop-1">
+                        <li><i class="fas fa-heart"></i></li>
+                        <li><a href="form_favorite.html">Produse Favorite</a></li>
+                        <li><a href="form_cart.html">Cos cumparaturi</a></li>
+                    </ul>
+                </ul>
+                
+                <ul class="subnav">
+                    <li><a id="signoutlink" class="nav-link active"><i class="fas fa-user"></i> <i id="sub" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop">
+                        <li><label id="user-db">-</label></li>
+                        <li><a href="form_profile.html">Editare Profil</a></li>
+                        <li><a id="signout" href="form_logare.html">Deconectare</a></li>
+                    </ul>
+                </ul>
+                <a href="#" id="close"><i class="fas fa-times-circle"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i id="bar" class="fas fa-bars"></i>
+        </div>
+    </section>
+    <!-- script for responsive menu -->
+    <script src="scriptHome.js"></script>
+    <script src="scriptSubnav.js"></script>
+
+    <section>
+        <div class="section-container">
+            <div class="columns content">
+                <div class="content-container">
+                    <div class="container">
+                        <div class="title mt-3.5">Actualizare Profil</div>
+                        <label id="successUpdate" for="form"></label>
+                        <form id="form" action="#" method="get">
+                            <div class="user-details">
+                                <div class="input-box">
+                                    <span class="details">Nume si prenume</span>
+                                    <input type="text" id="nameBox" placeholder="Introduceti numele si prenumele dvs." >  
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Nume utilizator</span>
+                                    <input type="text" id="userBox" placeholder="Introduceti un nume de utilizator" >  
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">E-mail</span>
+                                    <input type="email" id="mailBox" placeholder="Introduceti adresa dvs. de mail">  
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Numar de telefon</span>
+                                    <input type="text" id="phoneBox" placeholder="Introduceti nr. dvs. de telefon">  
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Judet</span>
+                                    <input type="text" id="countyBox" placeholder="Introduceti judetul">  
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Oras</span>
+                                    <input type="text" id="cityBox" placeholder="Introduceti orasul">  
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Adresa</span>
+                                    <input type="text" id="addressBox" placeholder="Introduceti adresa dvs.">  
+                                </div>
+                                <div class="input-box">
+                                    <span class="details">Cod postal</span>
+                                    <input type="text" id="codeBox" placeholder="Introduceti codul postal">  
+                                </div>
+                            </div>
+                            <div class="button">
+                                <input type="submit" id="saveBtn" value="Salvare modificari">
+                            </div>
+                            <div class="button">
+                                <input type="button" id="resetBtn" onclick="window.location.reload(true)" value="Renunta">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="columns image" style="background-image:url('img/profile_bg.jpg')"></div>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logof" src="img/home_logo.jpg" alt="">
+            <p>I was sad but then I bought something online.<br>I feel better now.</p>
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <a href="https://www.facebook.com/"><i class="fab fa-facebook fb"></i></a>
+                <a href="https://www.instagram.com/"><i class="fab fa-instagram ig"></i></a>
+                <a href="https://www.snapchat.com/"><i class="fab fa-snapchat sc"></i></a>
+                <a href="https://twitter.com/?lang=ro"><i class="fab fa-twitter tw"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

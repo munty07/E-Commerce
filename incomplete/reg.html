@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <title>Creare cont</title>
+  </head>
+  <style>
+       *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: Arial, Helvetica, sans-serif;
+      }
+      body{
+          display: flex;
+          height: 100vh;
+          justify-content: center;
+          align-items: center;
+          padding: 10px;
+          background: linear-gradient(#71b7e6, #9b59b6);
+      }
+      .container{
+          max-width: 700px;
+          width: 100%;
+          background: white;
+          padding: 25px 30px;
+          border-radius: 15px;
+      }
+      .container .title{
+          font-size: 25px;
+          font-weight: 500;
+          position: relative;
+      }
+      .container .title::before{
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          height: 3px;
+          width: 30px;
+          background: linear-gradient(#71b7e6, #9b59b6);
+      }
+      .container form .user-details{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          margin: 20px 0 12px 0; 
+      } 
+      form .user-details .input-box{
+          margin-bottom: 15px;
+          width: calc(100% / 2 - 20px);
+      }
+      .user-details .input-box .details{
+          display: block;
+          font-weight: 500;
+          font-size: 18px;
+          margin-bottom: 5px;
+      }
+      .user-details .input-box input{
+          height: 30px;
+          width: 100%;
+          outline: none;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          padding-left: 15px;
+          font-size: 15px;
+          border-bottom-width: 2px;
+          transition: all 0.3s ease;
+      }
+      .user-details .input-box input:focus,
+      .user-details .input-box input:valid{
+          border-color: #9b59b6;
+      }
+      form input[type="radio"]{
+          display: none;
+      }
+      form .button{
+          height: 45px;
+          margin: 25px 0;
+      }
+      form .button input{
+          height: 100%;
+          width: 100%;
+          outline: none;
+          color: white;
+          border: none;
+          font-size: 18px;
+          font-weight: 500;
+          border-radius: 5px;
+          letter-spacing: 1px;
+          background: linear-gradient(#71b7e6, #9b59b6);
+      }
+      form .button input:hover{
+        background: linear-gradient(#9b59b6, #71b7e6);
+      }
+      ::placeholder{
+        color: #bfbcbb;
+        transition: all 0.5s ease;
+      }
+      input:focus::placeholder {
+        color: transparent;
+      }
+
+      @media (max-width: 584px){
+          .container{
+              max-width: 100%;
+          }
+          form .user-details .input-box{
+            margin-bottom: 15px;
+            width: 100%;
+          }
+          .container form .user-details{
+            max-height: 300px;
+            overflow-y: scroll;
+          } 
+          .user-details::-webkit-scrollbar{
+            width: 0;
+          }
+      }
+  </style>
+  <body>
+    <div class="container">
+        <div class="title mt-3.5">Inregistreaza-te</div>
+        <form id="form" action="#" method="get">
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Nume si prenume</span>
+                    <input type="text" id="nameBox" placeholder="Introduceti numele si prenumele dvs." >  
+                </div>
+                <div class="input-box">
+                    <span class="details">Nume utilizator</span>
+                    <input type="text" id="userBox" placeholder="Introduceti un nume de utilizator" >  
+                </div>
+                <div class="input-box">
+                    <span class="details">E-mail</span>
+                    <input type="email" id="mailBox" placeholder="Introduceti adresa dvs. de mail">  
+                </div>
+                <div class="input-box">
+                    <span class="details">Numar de telefon</span>
+                    <input type="text" id="phoneBox" placeholder="Introduceti nr. dvs. de telefon">  
+                </div>
+                <div class="input-box">
+                    <span class="details">Judet</span>
+                    <input type="text" id="countyBox" placeholder="Introduceti judetul">  
+                </div>
+                <div class="input-box">
+                    <span class="details">Oras</span>
+                    <input type="text" id="cityBox" placeholder="Introduceti orasul">  
+                </div>
+                <div class="input-box">
+                    <span class="details">Adresa</span>
+                    <input type="text" id="addressBox" placeholder="Introduceti adresa dvs.">  
+                </div>
+                <div class="input-box">
+                    <span class="details">Cod postal</span>
+                    <input type="text" id="codeBox" placeholder="Introduceti codul postal">  
+                </div>
+                <div class="input-box">
+                    <span class="details">Parola</span>
+                    <input type="password" id="passBox" placeholder="Introduceti parola">  
+                </div>
+                <div class="input-box">
+                    <span class="details">Confirmare parola</span>
+                    <input type="password" id="pass2Box" placeholder="Reintroduceti parola">  
+                </div>
+            </div>
+            <div class="button">
+                <input type="submit" id="registerBtn" value="Creeaza cont">
+            </div>
+        </form>
+    </div>
+    <!-- <script type="module">
+        //-------------Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        import {getDatabase, ref, set, get, child} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js"
+      
+        //-------------Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDdmhH5rw_3tm4OrvMEAvyxX-al_PQwszQ",
+          authDomain: "test-firebase-ee769.firebaseapp.com",
+          databaseURL: "https://test-firebase-ee769-default-rtdb.firebaseio.com",
+          projectId: "test-firebase-ee769",
+          storageBucket: "test-firebase-ee769.appspot.com",
+          messagingSenderId: "1041889192560",
+          appId: "1:1041889192560:web:9dc20cfc9a7dd87312a2b5"
+        };
+      
+        //-------------Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+
+        //-------------references
+        var name = document.getElementById("nameBox");
+        var username = document.getElementById("userBox");
+        var mail = document.getElementById("mailBox");
+        var phone = document.getElementById("phoneBox");
+        var county = document.getElementById("countyBox");
+        var city = document.getElementById("cityBox");
+        var address = document.getElementById("addressBox");
+        var code = document.getElementById("codeBox");
+        var pass = document.getElementById("passBox");
+        var pass2 = document.getElementById("pass2Box");
+
+        //-------------validation function
+        function validateFieldNull(field){
+            if(field.value == null || field.value.match(/^ *$/) !== null){
+                //field isn't good
+                return false;
+            }else{
+                //field is good
+                return true;
+            }
+        }
+
+        function validateAll(){
+            let mailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;///^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;// /^[a-zA-z0-9]+@(gmail|yahoo|outlook)\.com$/; ///^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            let passRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            let phoneRegex = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+            let lettersRegex = /^[a-zA-Z -]*$/;//letter, line and space 
+            let codeRegex = /^\d{6}$/;
+
+            //error message
+            if(validateFieldNull(name) == false || validateFieldNull(username) == false || validateFieldNull(mail) == false || validateFieldNull(phone) == false || validateFieldNull(county) == false || validateFieldNull(city) == false || validateFieldNull(address) == false || validateFieldNull(code) == false || validateFieldNull(pass) == false || validateFieldNull(pass2) == false){
+                alert("Completati toate campurile!");
+                return false;
+            }
+
+            if(!lettersRegex.test(name.value)){
+                alert("Numele trebuie sa contina doar litere!");
+                return false;
+            } 
+
+            if(!mailRegex.test(mail.value)){
+                alert("Mail invalid!");
+                return false;
+            }
+
+            if(!phoneRegex.test(phone.value)){
+                alert("Numarul de telefon este invalid!");
+                return false;
+            }
+
+            if(!lettersRegex.test(county.value)){
+                alert("Judetul trebuie sa contina doar litere!");
+                return false;
+            } 
+            
+            if(!lettersRegex.test(city.value)){
+                alert("Orasul trebuie sa contina doar litere!");
+                return false;
+            }
+
+            if(!codeRegex.test(code.value)){
+                alert("Cod postal invalid!");
+                return false;
+            }
+
+            if(!passRegex.test(pass.value)){
+                alert("Parola trebuie sa fie formata din minim 8 caractere, cel putin o litera, un numar si un caracter special!");
+                return false;
+            }
+
+            if(pass.value != pass2.value){
+                alert("Parolele nu coincid!");
+                return false;
+            }
+
+            return true;
+        }
+
+        //-------------insert function
+        function register(){
+            //validate function
+            if(!validateAll()){
+                return;
+            }
+            var dbRef = ref(db);
+
+            get(child(dbRef, "Conturi/" + username.value)).then((snapshot) => {
+                if(snapshot.exists()){
+                    alert("Utilizatorul exista deja!");
+                }else{
+                    //console.log("bla " + mail.value + " " + snapshot.val().Mail);
+                    set(ref(db, "Conturi/" + username.value),{
+                        Nume: name.value,
+                        Utilizator: username.value,
+                        Mail: mail.value,
+                        Telefon: phone.value,
+                        Judet: county.value,
+                        Oras: city.value,
+                        Adresa: address.value,
+                        Cod_postal: code.value,
+                        Parola: encPass()
+                    })
+                    .then(() => {
+                        alert("Contul a fost creat cu succes!");
+                        window.location.replace("form_logare.html");
+                    })
+                    .catch((error) => {
+                        alert("Eroare: " + error);
+                    })
+                }
+            });
+        }
+
+        //-------------encription
+        function encPass(){
+            var password = CryptoJS.AES.encrypt(pass.value, pass.value);
+            return password.toString();
+        }
+
+        //-------------assign events to btn
+        registerBtn.addEventListener('click', register);
+      </script> -->
+
+      <script>
+          // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+        import {getDatabase, ref, set, get, child} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js"
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB4QbCtMwmAygKrUaubiIHyHzgHTxYRzxs",
+            authDomain: "test-autentificare.firebaseapp.com",
+            databaseURL: "https://test-autentificare-default-rtdb.firebaseio.com",
+            projectId: "test-autentificare",
+            storageBucket: "test-autentificare.appspot.com",
+            messagingSenderId: "297047922567",
+            appId: "1:297047922567:web:1ec8c6da201fe836c56522"
+        };
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const db = getDatabase();
+        /////**************************/////
+        
+
+        auth.onAuthStateChanged(function(user){
+            
+            const dbRef = ref(db);
+            if(user){ 
+                const uid = user.uid;
+
+                get(child(dbRef, "Conturi/" + uid + "/ProduseFavorite" + "/prod-heart1"))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const den = snapshot.val().Denumire;
+                        const img = snapshot.val().Imagine;
+                        const prt = snapshot.val().Pret;
+                        console.log(den);
+                        console.log(img);
+                        console.log(prt);
+
+                        function addRow() {
+                            var table = document.getElementById('table-fav');
+                            var rowCount = table.rows.length;
+                            var row = table.insertRow(rowCount);
+                        
+                            row.insertCell(0).innerHTML= '<a><i class="fas fa-times-circle del"></i></a>';
+                            row.insertCell(1).innerHTML= img;
+                            row.insertCell(2).innerHTML= den;
+                            row.insertCell(2).innerHTML= prt;
+                            row.insertCell(2).innerHTML= '<i class="fas fa-eye eye"></i>';
+                            row.insertCell(2).innerHTML= '<a><i class="fa fa-shopping-cart cart"></i></a>';
+                        
+                        }
+                        
+                        // function deleteRow(obj) {
+                                
+                        //     var index = obj.parentNode.parentNode.rowIndex;
+                        //     var table = document.getElementById("myTableData");
+                        //     table.deleteRow(index);
+                            
+                        // }
+                    } else {
+                        console.log("No data available");
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+
+            }else{
+                console.log("neconectat");
+            }
+        });
+
+
+        const uid = sessionStorage.getItem("uid");
+        console.log("UID logat");
+        console.log(uid);
+       // const db = getDatabase();
+       // const dbRef = ref(db);
+        get(child(dbRef, "Conturi/" + uid + "/ProduseFavorite" + "/prod-heart1"))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                const den = snapshot.val().Denumire;
+                const img = snapshot.val().Imagine;
+                const prt = snapshot.val().Pret;
+                console.log(den);
+                console.log(img);
+                console.log(prt);
+
+                function addRow() {
+                    var table = document.getElementById('table-fav');
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+                
+                    row.insertCell(0).innerHTML= '<a><i class="fas fa-times-circle del"></i></a>';
+                    row.insertCell(1).innerHTML= img;
+                    row.insertCell(2).innerHTML= den;
+                    row.insertCell(2).innerHTML= prt;
+                    row.insertCell(2).innerHTML= '<i class="fas fa-eye eye"></i>';
+                    row.insertCell(2).innerHTML= '<a><i class="fa fa-shopping-cart cart"></i></a>';
+                
+                }
+                
+                // function deleteRow(obj) {
+                        
+                //     var index = obj.parentNode.parentNode.rowIndex;
+                //     var table = document.getElementById("myTableData");
+                //     table.deleteRow(index);
+                    
+                // }
+            } else {
+                console.log("No data available");
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+
+      </script>
+  </body>
+</html>

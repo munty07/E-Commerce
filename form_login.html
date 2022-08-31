@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script> 
+    <link rel="stylesheet" href="style_login.css">
+    <script type="text/javascript" src="log.js"></script>
+</head>
+<body>
+    <div id="preloader">
+        <i id="spinner" class="fas fa-spinner fa-spin"></i>
+    </div>
+
+    <div class="bg-img">
+        <div class="content">
+            <header>Autentificare</header>
+            <form action="#">
+                <p id="error-name"></p>
+                <div class="field">
+                    <span><i class="fas fa-user"></i></span>
+                    <input type="text" id="mailBox" placeholder="Introduceti adresa de mail">
+                </div>
+                <div class="field space">
+                    <span><i class="fas fa-lock"></i></span> 
+                    <input type="password" id="passBox" placeholder="Introduceti parola">
+                </div>
+                <div class="pass">
+                    <a href="form_recoverPass.html">Ai uitat parola?</a>
+                </div>
+                <div class="field">
+                    <input type="button" id="logBtn" value="Conectare">
+                </div>
+                <div class="login">
+                    Sau conecteaza-te cu
+                </div>
+                <div class="links">
+                    <div class="field">
+                        <input type="button" id="googleBtn" value="Google">
+                    </div>
+                </div>
+                <div class="signup">
+                    Nu ai cont?
+                    <a href="form_register.html">Inregistreaza-te acum!</a>
+                </div>
+            </form>
+        </div>
+    </div>
+   
+    <script type="module" src="script_Login.js"></script>
+</body>
+</html>

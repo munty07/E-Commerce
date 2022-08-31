@@ -1,0 +1,129 @@
+.container{
+    max-width: 700px;
+    width: 100%;
+    background: white;
+    padding: 25px 30px;
+    border-radius: 15px;
+}
+.container .title{
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+}
+.container .title::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background: linear-gradient(#71b7e6, #9b59b6);
+}
+.container form .user-details{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0; 
+} 
+form .user-details .input-box{
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+}
+.user-details .input-box .details{
+    display: block;
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.user-details .input-box input{
+    height: 30px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    font-size: 15px;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+.user-details .input-box input:focus,
+.user-details .input-box input:valid{
+    border-color: #9b59b6;
+}
+form input[type="radio"]{
+    display: none;
+}
+form .button{
+    height: 45px;
+    margin: 25px 0;
+}
+form .button input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    color: black;
+    border: none;
+    font-size: 18px;
+    font-weight: 900;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    background-color: #E3E6F3;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+    transition: 0.4s ease;
+    cursor: pointer;
+}
+form .button input:hover{
+     color: white;
+     background-color: #3e8681;
+     /* background: linear-gradient(rgb(66, 65, 65),#4faca8); */
+}
+::placeholder{
+     color: #bfbcbb;
+     transition: all 0.5s ease;
+}
+input:focus::placeholder {
+     color: transparent;
+}
+
+@media(max-width: 1350px){
+     .container{
+         max-width: 100%;
+     }
+     form .user-details .input-box{
+         margin-bottom: 15px;
+         width: 100%;
+     }
+     .container form .user-details{
+         max-height: 300px;
+         overflow-y: scroll;
+     } 
+     .user-details::-webkit-scrollbar{
+         width: 0;
+     }
+}
+
+@media (max-width: 584px){
+    .container{
+        max-width: 100%;
+    }
+    form .user-details .input-box{
+      margin-bottom: 15px;
+      width: 100%;
+    }
+    form .gender-details .category{
+      width: 100%;
+    }
+    .container form .user-details{
+      max-height: 300px;
+      overflow-y: scroll;
+    } 
+    .user-details::-webkit-scrollbar{
+      width: 0;
+    }
+}
+
+#successUpdate{
+    color: #377571;
+    display: block;
+    padding-top: 10px;
+}

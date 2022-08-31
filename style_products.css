@@ -1,0 +1,292 @@
+#stil{
+    margin-bottom: 20px;
+}
+#addButton, #btnOrders{
+    display: none;
+}
+
+.isAdmin{
+    display: inline-flex!important;
+    flex-direction: column;
+}
+
+
+.containerImg{
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: .5s ease;
+}
+
+.containerImg:hover .overlay {
+    opacity: 1;
+}
+
+.btn-primary{
+    background-color: #367976!important;
+    border-color: #367976!important;
+    margin-bottom: 3px;
+    width: 100%;
+}
+.btn-primary:hover{
+    background-color: #295e5b!important;
+    color: white;
+    transition: 0.3s ease;
+}
+
+/* dropdown with checkboxes */
+.dropdown-check-list {
+    display: inline-block;
+}
+.dropdown-check-list.colors{
+    float: right;
+}
+
+.dropdown-check-list .anchor {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 50px 5px 10px;
+    border: 1px solid #ccc;
+    height: 20px;/*plus*/
+    word-wrap: normal;
+    width: 300px;
+    padding: 2px 3px;
+}
+
+.dropdown-check-list .anchor:after {
+    position: absolute;
+    content: "";
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    padding: 4px;
+    right: 10px;
+    top: 5%;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+}
+
+.dropdown-check-list .anchor:active:after {
+    right: 8px;
+    top: 21%;
+}
+
+.dropdown-check-list ul.items {
+    padding: 2px;
+    display: none;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.dropdown-check-list ul.items li {
+    list-style: none;
+    text-align: left;
+    padding-left: 0px;
+    padding-top: 5px;
+    width: 300px; /*new*/
+}
+
+.dropdown-check-list.visible .anchor {
+    color: #367976;
+}
+
+.dropdown-check-list.visible .items {
+    display: table-row;
+}
+/*  */
+
+
+input[type="checkbox"]:checked{
+    accent-color: #367976;
+}
+input[type="checkbox"]{
+    margin: 0 5px;
+}
+
+
+/* SEARCH BAR */
+
+.container{
+    padding-left: 0!important;
+}
+
+.container .input{
+    border: 0;
+    outline: none;
+    color: #8b7d77;
+}
+
+.search_wrap{
+    width: 100%;
+    margin: 10px auto;
+}
+
+.search_wrap .search_box{
+    position: relative;
+    width: 300px;
+    height: 30px;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.search_wrap .search_box .input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-size: 18px;
+}
+
+.search_wrap .search_box .btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: #367976;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.search_wrap .search_box .btn:hover{
+    background: #295e5b;	
+}
+
+.search_wrap .search_box .btn.btn_common .fas{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #fff;
+    font-size: 16px;
+}
+
+.search_wrap.search_wrap_1 .search_box .btn{
+    right: 0;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.search_wrap.search_wrap_1 .search_box .input{
+    padding-right: 80px;
+    box-shadow: 5px 6px 15px grey
+}
+
+/*  */
+
+::placeholder{
+    color: #bfbcbb;
+    transition: all 0.5s ease;
+}
+input:focus::placeholder {
+    color: transparent;
+}
+
+/* isAdmin: label-dropdown-textBox */
+select,
+.search-query{
+    word-wrap: normal;
+    float: right;
+    width: 300px;
+}
+label{
+    float: left;
+    text-align: left;
+    margin-right: 20px;
+}
+
+input[type="file"]{
+    width: 300px;
+}
+input[type="number"]{
+    width: 90px;
+}
+
+#error1, #error2, #error3, #error4{
+    font-size: 16px;
+    color: red;
+}
+/* radio buttons */
+.option{
+    float: left;
+}
+
+
+.anchor.filter{
+    background-color: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+} 
+
+
+/* ------------------------------- */
+
+
+
+#btnApply, #btnClear, #btnOrders{
+    width: 300px;
+    margin-top: 10px;
+}
+
+
+/* PROPRIETATI TABEL COMENZI PLASATE */
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    white-space: nowrap;
+    overflow-x: auto;
+    display: block;
+    padding: 5px 80px;
+}
+
+table thead{
+    border: 1px solid #e2e9e1;
+    border-left: none;
+    border-right: none;
+}
+
+table thead td{
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 19px 40px;
+}
+table tbody{
+    border: 1px solid #e2e9e1;
+    border-left: none;
+    border-right: none;
+    padding: 20px;
+}
+
+table tbody tr td{
+    padding-top: 15px;
+}
+
+table tbody td{
+    font-size: 13px;
+}
+
+table td:nth-child(1),
+table td:nth-child(2),
+table td:nth-child(3),
+table td:nth-child(4),
+table td:nth-child(5),
+table td:nth-child(6),
+table td:nth-child(7){
+    width: 400px;
+    text-align: center;
+}

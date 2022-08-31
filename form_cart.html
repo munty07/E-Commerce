@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart Page</title>
+    <!-- script folosit pentru a putea utiliza incarcarea doar a unei sectiuni din pagina -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link rel="stylesheet" href="style_home.css"> 
+    <link rel="stylesheet" href="style_subnav.css">
+    <style>
+        p{
+            font-size: 13px;
+            margin-top: 1px;
+        }
+    </style>
+</head>
+<body>
+    <!-- SCRIPT PENTRU GENERAREA PRODUSELOR DIN COSUL DE CUMPARATURI -->
+    <script type="module" src="script_Cart.js"></script>
+
+    <section id="header">
+        <a href="form_home.html"><img src="img/home_logo.jpg" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="form_home.html">Acasa</a></li>
+                <li><a href="form_products.html">Produse</a></li>
+                <li><a href="form_about.html">Despre</a></li>
+                <li><a href="form_contact.html">Contact</a></li>
+                <ul class="subnav">
+                    <li><a class="active"><i class="fa fa-shopping-bag"></i> <i id="sub-1" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop-1">
+                        <li><i class="fas fa-heart"></i></li>
+                        <li><a href="form_favorite.html">Produse Favorite</a></li>
+                        <li><a class="active" href="form_cart.html">Cos cumparaturi</a></li>
+                    </ul>
+                </ul>
+                
+                <ul class="subnav">
+                    <li><a id="signoutlink" class="nav-link"><i class="fas fa-user"></i> <i id="sub" class="fa fa-caret-down"></i></a></li>
+                    <ul id="drop">
+                        <li><label id="user-db">-</label></li>
+                        <li><a href="form_profile.html">Editare Profil</a></li>
+                        <li><a id="signout" href="form_logare.html">Deconectare</a></li>
+                    </ul>
+                </ul>
+                <a href="#" id="close"><i class="fas fa-times-circle"></i></a>
+            </ul>
+        </div>
+        <div id="mobile">
+            <i id="bar" class="fas fa-bars"></i>
+        </div>
+    </section>
+    <!-- script for responsive menu -->
+    <script src="scriptHome.js"></script>
+    <script src="scriptSubnav.js"></script>
+
+    <section id="header-banner-cart">
+        <h1><span>#shopwithus</span></h1>
+    </section>
+
+    <section id="cart" class="section-p1">
+        <table id="plata" width="100%">
+            <thead>
+                <tr>
+                    <td>Sterge</td>
+                    <td>Imagine</td>
+                    <td>Culoare</td>
+                    <td>Brand</td>
+                    <td>Denumire</td>
+                    <td>Pret</td>
+                    <td>Marime</td>
+                    <td>Cantitate</td>
+                    <td>Subtotal</td>
+                    <td>Detalii</td>
+                </tr>
+            </thead>
+            <tbody id="tbody-cart">
+                <!-- cod generat -->
+            </tbody>
+        </table>
+        <div id="divMesaj"></div>
+    </section>
+
+    <section id="cart-add" class="section-p1">
+        <div></div>
+        <div id="subtotal">
+            <h3>Nota de Plata</h3>
+            <!-- <p>Daca suma depaseste 200 lei transportul este gratuit.</p> -->
+            <table>
+                <tr>
+                    <td>Subtotal</td>
+                    <td id="subtotalPlata">-</td>
+                </tr>
+                <tr>
+                    <td>Transport (poate varia in functie de metoda de expediere)</td>
+                    <td id="transport">19</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td id="totalPlata"><strong>-</strong></td>
+                </tr>
+            </table>
+            <button id="send" class="normal" disabled>Finalizare cumparaturi</button>
+        </div>
+    </section>
+
+
+    <footer class="section-p1">
+        <div class="col">
+            <img class="logof" src="img/home_logo.jpg" alt="">
+            <p>I was sad but then I bought something online.<br>I feel better now.</p>
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <a href="https://www.facebook.com/"><i class="fab fa-facebook fb"></i></a>
+                <a href="https://www.instagram.com/"><i class="fab fa-instagram ig"></i></a>
+                <a href="https://www.snapchat.com/"><i class="fab fa-snapchat sc"></i></a>
+                <a href="https://twitter.com/?lang=ro"><i class="fab fa-twitter tw"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

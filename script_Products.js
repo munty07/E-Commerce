@@ -3221,12 +3221,12 @@ function refreshPage(){
     window.location.reload(true);
 }
 
-function sendEmail(key, mail, name) {
+function sendEmail(key, mail, name, data, expediere, statusplata, subPlata, transport, total){
     console.log("Send mail");
     console.log("mail-key ", key);
     console.log("mail ", mail);
     console.log("mail-nume ", name);
-
+    
     Email.send({
     SecureToken : "d4e41b30-45f4-4df0-9742-b6750961dc90",
     To : mail,
@@ -3269,12 +3269,20 @@ function sendEmail(key, mail, name) {
                             "Buna Dl./Dna. " + name + "," +
                             "<div style='font-size:16px';'font-weight:normal'><br><br>Comanda" + key + 
                             " a fost predata curierului si facem tot posibilul sa ajunga la dumneavoastra cat mai repede." +
+                            "<br><br>" +
+                            "<br><br><strong>Detalii Comanda</strong>" + "<br><strong>Data plasarii:</strong> " + data +
+                            "<br><strong>Expediere: </strong>" + expediere + 
+                            "<br><strong>Status plata: </strong>" + statusplata +
+                            "<br><strong>Subplata: </strong>" + subPlata +
+                            "<br><strong>Taxa transport: </strong>" + transport +
+                            "<br><strong>Total: </strong>" + total +
+                            "<br><br>Mai jos veti gasi atasata si factura comenzii." + 
                             "<br><br><br>Multumim,<br> <strong>Echipa Mimi</strong></div>"+
                         "</p>"+
                     "</td>"+
                 "</tr>"+
             "</tbody>" +
-        "</table>"
+        "</table>" 
     })
     .then( message => {
         if(document.getElementById("livrare" + key)){
@@ -3507,7 +3515,6 @@ btnOrders.addEventListener('click', () => {
                 tableProd.appendChild(tbodyProd);
 
                 div.appendChild(tableProd);
-                // viewOrders.appendChild(tableProd);
             }
 
 
@@ -3618,7 +3625,22 @@ btnOrders.addEventListener('click', () => {
                 let idOrder = childObj.key;
                 let mailClient = childObj.val().Client.Mail;
                 let nameClient = childObj.val().Client.Nume;
-                sendEmail(idOrder, mailClient, nameClient);
+
+                sendEmail(idOrder, mailClient, nameClient, data, expediere, status, subPlata, taxa, total)
+            })
+
+            btnAnulare.addEventListener('click', () => {
+                let confirmaAnulare = confirm("Sigur doriti sa anulati comanda?");
+                if(confirmaAnulare){
+                    remove(ref(db, "Comenzi/" + childObj.key))
+                    .then(() => {
+                        alert("Comanda a fost anulata!");
+                        setTimeout(refreshPage, 1000);
+                    })
+                    .catch((error) => {
+                        console("Eroare: ", error);
+                    })
+                } 
             })
         })
         

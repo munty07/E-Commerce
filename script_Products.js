@@ -3221,7 +3221,7 @@ function refreshPage(){
     window.location.reload(true);
 }
 
-function sendEmail(key, mail, name, data, expediere, statusplata, subPlata, transport, total){
+function sendEmail(factura, url, key, mail, name, data, expediere, statusplata, subPlata, transport, total){
     console.log("Send mail");
     console.log("mail-key ", key);
     console.log("mail ", mail);
@@ -3282,7 +3282,11 @@ function sendEmail(key, mail, name, data, expediere, statusplata, subPlata, tran
                     "</td>"+
                 "</tr>"+
             "</tbody>" +
-        "</table>" 
+        "</table>",
+        Attachments: [{
+            name: factura,
+            data: url
+        }]
     })
     .then( message => {
         if(document.getElementById("livrare" + key)){
@@ -3292,6 +3296,83 @@ function sendEmail(key, mail, name, data, expediere, statusplata, subPlata, tran
     });
 }
 
+function parcurgeProd(lstprd){
+    let lst = [];
+    for(const element of lstprd){
+        lst.push(element);
+    }
+
+    return lst;
+}
+
+
+function generarePDF(lstPrd, numeFactura, numeClient, stradaClient, orasClient, JudetClient, codpClient, telefonClient, mailClient,
+    idOrder, data, expediere, status, subPlata, taxa, total){
+    var today = new Date();
+
+    let zi = today.getDate();
+    let luna = today.getMonth() + 1;
+    let an = today.getFullYear();
+
+    let ora = today.getHours();
+    let minute = today.getMinutes();
+    let secunde = today.getSeconds();
+
+    window.jsPDF = window.jspdf.jsPDF;
+
+    var columns = [
+        {title: "Nume Produs", dataKey: "nume"},
+        {title: "Brand", dataKey: "brand"}, 
+        {title: "Culoare", dataKey: "culoare"}, 
+        {title: "Marime", dataKey: "marime"},
+        {title: "Pret", dataKey: "pret"},
+        {title: "Pret Redus", dataKey: "pretRedus"},
+        {title: "Cantitate", dataKey: "cantitate"},
+        {title: "Subtotal", dataKey: "subtotal"}
+    ]
+    var rows = parcurgeProd(lstPrd);
+   
+    
+    var doc = new jsPDF('p', 'pt');
+    doc.autoTable(columns, rows, {
+        styles: {fillColor: [89, 150, 148]},
+        columnStyles: {
+            id: {fillColor: 255}
+        },
+        margin: {top: 300},
+        didDrawPage: function(data) {
+            doc.text("FACTURA", 40, 30);
+            doc.autoTable({
+                head: [['Nr. Factura', 'Data emiterii', 'Ora emiterii']],
+                body: [
+                    [count, zi + '/' + luna + '/' + an, ora + ':' + minute + ':' + secunde]
+                ]
+            });
+            doc.autoTable({
+                head: [['Facturat catre', 'MIMI SHOP']],
+                body: [
+                    [numeClient, 'site shop'],
+                    [stradaClient, 'Strada companiei'],
+                    [orasClient + '/' + JudetClient + '/Romania', 'Timisoara/Timis/Romania'],
+                    [codpClient, ''],
+                    [telefonClient, '0786673433'],
+                    [mailClient, 'mimi-shop@gmail.com']
+                ]
+            });
+        }
+    });
+    
+    doc.text("Subtotal: " +  subPlata + " lei", 400, 700);
+
+    doc.text("Transport: " +  taxa + " lei", 400, 720);
+    doc.text("Total: " + total + " lei", 400, 740);
+
+    var pdfBase64 = doc.output('datauristring');
+    console.log("NUME FACTURA - -  - ", numeFactura);
+
+    
+    sendEmail(numeFactura, pdfBase64, idOrder, mailClient, numeClient, data, expediere, status, subPlata, taxa, total)
+}
 
 // EVENIMENT PENTRU BUTONUL DE VIZUALIZARE COMENZI PLASATE
 btnOrders.addEventListener('click', () => {
@@ -3425,7 +3506,6 @@ btnOrders.addEventListener('click', () => {
             tableClient.appendChild(tbody);
 
             div.appendChild(tableClient);
-            // viewOrders.appendChild(tableClient);
            
 
             // lista totala de produse comandate
@@ -3623,10 +3703,18 @@ btnOrders.addEventListener('click', () => {
 
             btnLivrare.addEventListener('click', () => {
                 let idOrder = childObj.key;
-                let mailClient = childObj.val().Client.Mail;
+                
                 let nameClient = childObj.val().Client.Nume;
+                let adresaClient = childObj.val().Client.Adresa;
+                let orasClient = childObj.val().Client.Oras;
+                let judetClient = childObj.val().Client.Judet;
+                let codPostalClient = childObj.val().Client.CodPostal;
+                let telefonClient = childObj.val().Client.Telefon;
+                let mailClient = childObj.val().Client.Mail;
 
-                sendEmail(idOrder, mailClient, nameClient, data, expediere, status, subPlata, taxa, total)
+                let numeFactura = "Factura" + idOrder + ".pdf";
+                generarePDF(prod, numeFactura, nameClient, adresaClient, orasClient, judetClient, codPostalClient, telefonClient, mailClient,
+                    idOrder, data, expediere, status, subPlata, taxa, total);
             })
 
             btnAnulare.addEventListener('click', () => {

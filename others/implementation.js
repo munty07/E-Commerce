@@ -165,3 +165,101 @@ sendPasswordResetEmail(auth, email)
     document.getElementById("error-mail").innerHTML = "Nu exista cont cu aceasta adresa de mail!";
     document.getElementById("error-mail").style.color = "red";
 });
+
+
+// PRODUSE RECOMANDATE
+
+
+
+
+
+
+function AddAllItems(Produse){
+    Produse.reverse();
+    divGenerate.innerHTML = "";
+    Produse.forEach(element => {
+        AddItem(element.key, element.val().Brand, element.val().Poza, 
+        element.val().Poza2, element.val().Nume, element.val().Pret, 
+        element.val().Reducere, element.val().PretRedus, element.val().FavoriteBy);
+    })
+}
+
+
+
+
+
+function GetAllData(){
+    const que = query(ref(db, "Produse"),orderByChild("NrRecomandare"), limitToLast(4));
+    get(que)
+    .then((snapshot) => {
+        var prod = [];
+        snapshot.forEach(childSnapshot => {
+            prod.push(childSnapshot);
+        });
+        AddAllItems(prod);     
+    })
+    .catch((error) => {
+        console.log("Mesaj eroare " + error);
+    })
+}
+window.onload = GetAllData;
+
+
+
+
+
+
+
+// ADAUGAREA PROD LA FAV
+
+// td1-pictograma inima
+var love = document.getElementById("love" + count);
+// EVENIMENT PENTRU ADAUGAREA PRODUSELOR LA FAVORITE
+love.addEventListener('click', () => {
+    if(td1.children[0].classList.contains("inactiveHeart") === true){
+        td1.children[0].classList.remove("inactiveHeart");
+        td1.children[0].classList.add("activeHeart");
+        
+        let key = prodMap.get(td1.id);
+        console.log("Cheie event-love: " + key);
+
+        let allFavorite = new Set();
+        if(favoriteBy){
+            allFavorite.add(uid);
+            favoriteBy.forEach(item => {
+                allFavorite.add(item);
+            })
+        }else{
+            allFavorite.add(uid); 
+        }
+
+        update(child(dbRef, "Produse/" +  key), {
+            FavoriteBy: Array.from(allFavorite),
+            NrRecomandare: allFavorite.size
+        })
+        .then(()=>{
+            console.log("ListaFav a fost actualizata");
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
+    else{
+        td1.children[0].classList.remove("activeHeart");
+        td1.children[0].classList.add("inactiveHeart");
+        // uid = utilizatorul curent
+        let updatedList = favoriteBy.filter(item => {
+            return item != uid;
+        });
+        update(child(dbRef, "Produse/" +  key), {
+            FavoriteBy: updatedList,
+            NrRecomandare: updatedList.length
+        })
+        .then(()=>{
+            console.log("ListaFav a fost actualizata");
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
+});

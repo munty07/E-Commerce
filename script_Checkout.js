@@ -298,13 +298,13 @@ function DeleteData(){
     }
 
     // ----------------------------------------------------
-    // remove(ref(db, "Conturi/" + uid + "/CosCumparaturi/"))
-    // .then(() => {
-    //     alert("Produsele au fost sterse din cosul de cumparaturi!");
-    // })
-    // .catch((error) => {
-    //     alert("Eroare: " + error);
-    // })
+    remove(ref(db, "Conturi/" + uid + "/CosCumparaturi/"))
+    .then(() => {
+        alert("Produsele au fost sterse din cosul de cumparaturi!");
+    })
+    .catch((error) => {
+        alert("Eroare: " + error);
+    })
     
 }
 
@@ -318,7 +318,6 @@ function parcurgeLista(){
     for(const element of listProducts){
         listaProd.push(element);
     }
-
     return listaProd; 
 }
 
@@ -381,6 +380,7 @@ function generarePDF(numeClient, stradaClient, orasClient, JudetClient, codpClie
             });
         }
     });
+
     var transport;
     doc.text("Subtotal: " +  sessionStorage.getItem("subPlata") + " lei", 400, 700);
     if(document.getElementById('express').checked) {
@@ -397,6 +397,8 @@ function generarePDF(numeClient, stradaClient, orasClient, JudetClient, codpClie
     doc.text("Total: " + total + " lei", 400, 740);
 
     var pdfBase64 = doc.output('datauristring');
+
+
     console.log("NUME FACTURA - -  - ", numeFactura);
 
     const confirmSave = confirm("Doriti sa descarcati factura?");
@@ -423,13 +425,10 @@ function sendEmail(factura, url) {
         data: url
     }]
     })
-    .then( message => {
+    .then( () => {
         setTimeout(refreshPage, 2000);
-        document.getElementById("message").display = "none";
-        
+        document.getElementById("message").display = "none";       
     });
-
-
 }
 
 var lstClients = [];
@@ -449,7 +448,7 @@ function getIdClient(){
     
 }
 
-// modificari
+
 var count = 0;
 
 document.getElementById("btnSend").addEventListener('click', () => {

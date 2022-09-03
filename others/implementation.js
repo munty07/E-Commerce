@@ -54,21 +54,15 @@ auth.onAuthStateChanged(function(user){
 });
 
 
-
-document.getElementById("logBtn").addEventListener('click', function(){
+const logBtn = document.getElementById("logBtn");
+// eveniment pentru autentificare
+logBtn.addEventListener('click', function(){
     const mail = document.getElementById("mailBox").value;
     const pass = document.getElementById("passBox").value;
-    const uid = sessionStorage.getItem("uid");
 
     signInWithEmailAndPassword(auth, mail, pass)
-    .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
-        console.log("user - logbtn");
-        console.log(user.name);
-
-        console.log("conectat cu mail/pass");
+    .then(() => {
+        // autentificare reusita
         document.getElementById("error-name").innerHTML = ""
     })
     .catch((error) => {

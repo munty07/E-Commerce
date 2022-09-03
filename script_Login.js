@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
 import {getDatabase, ref, set, get, child} from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js"
-
+ 
 // Your web app's Firebase configuration
 const firebaseConfig = {
 apiKey: "AIzaSyB4QbCtMwmAygKrUaubiIHyHzgHTxYRzxs",
@@ -16,7 +16,7 @@ appId: "1:297047922567:web:1ec8c6da201fe836c56522"
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const provider = new GoogleAuthProvider();
+
 const auth = getAuth();
 const db = getDatabase();
 
@@ -27,23 +27,18 @@ if(user){
     window.location = "/form_home.html";
 }
 
+// eveniment pentru buton de autentificare normala cu adresa de mail si parola
 document.getElementById("logBtn").addEventListener('click', function(){
     const mail = document.getElementById("mailBox").value;
     const pass = document.getElementById("passBox").value;
-    const uid = sessionStorage.getItem("uid");
 
     signInWithEmailAndPassword(auth, mail, pass)
-    .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
-        console.log("user - logbtn");
-        console.log(user);
-
-        console.log("conectat cu mail/pass");
+    .then(() => {
+        // autentificare reusita
         document.getElementById("error-name").innerHTML = ""
     })
     .catch((error) => {
+        // autentificare esuata
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode + errorMessage);
@@ -56,6 +51,8 @@ auth.onAuthStateChanged(function(user){
     
     const dbRef = ref(db);
     if(user){ 
+        var loader = document.getElementById("preloader");
+        loader.classList.add("showing");
         console.log("User:");
         console.log(user);
         console.log("uid");
@@ -69,9 +66,6 @@ auth.onAuthStateChanged(function(user){
         const mail = user.email;
 
         get(child(dbRef, "Conturi/" + uid)).then((snapshot) => {
-            var loader = document.getElementById("preloader");
-            loader.classList.add("showing");
-
             console.log("UID: ");
             console.log(uid);
             sessionStorage.setItem("uid", uid);
@@ -103,23 +97,8 @@ auth.onAuthStateChanged(function(user){
     }
 });
 
+// eveniment pentru butonul de autentificare cu contul de google
 document.getElementById("googleBtn").addEventListener('click', function(){   
+    const provider = new GoogleAuthProvider();
     signInWithRedirect(auth, provider);
-
-    getRedirectResult(auth)
-    .then((result) => {
-        // This gives you a Google Access Token. You can use it to access Google APIs.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-
-        // The signed-in user info.
-        const user = result.user;
-        console.log("user - googleBtn");
-        console.log(user);
-
-        console.log("conectat cu google");
-    })
-    .catch((error) => {
-        console.log("eroare-googleBtn" + error);
-    });
 })

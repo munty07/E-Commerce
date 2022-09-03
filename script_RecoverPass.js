@@ -1,7 +1,7 @@
 //-------------Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js"
-import { getAuth, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js"
+import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
 
 //-------------Your web app's Firebase configuration
 const firebaseConfig = {

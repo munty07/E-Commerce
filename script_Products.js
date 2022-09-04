@@ -422,7 +422,7 @@ document.getElementById("btnAdd").addEventListener('click', () => {
         let material = document.getElementById("material").value;
         let stil = document.getElementById("stil").value;
         let compozitie = document.getElementById("compozitie").value;
-
+        
        
         // VALIDAREA CAMPURILOR 
         if(validareCategorie(valCateg) == false || validareBrand(valBrand) == false || validareNume(nume) == false ||
@@ -2275,6 +2275,7 @@ function AddItem(key, brand, imagine1, imagine2, nume, pret, reducere, pretRedus
             // AFISAREA BUTOANELOR CORESPONDENTE CULORILOR EXISTENTE
             // BLACK 
             var negru1 = snapshot.val().Culori.Negru.PozaFata;
+            console.log("-------------as-asd-a-sd----------",negru1);
             var negru2 = snapshot.val().Culori.Negru.PozaSpate;
             var imgBlack = snapshot.val().Culori.Negru.PozaCuloare;
             if(negru1.length != 0 || negru2.length != 0){
@@ -2952,6 +2953,42 @@ function AddItem(key, brand, imagine1, imagine2, nume, pret, reducere, pretRedus
         }
     });
 
+    // FUNCTIE DE TRIMITERE MAIL
+    function sendMail(cheie){
+        console.log("Cheie ", cheie);
+        
+        get(ref(db, "Notificari/")).then((snapshot) => {
+            snapshot.forEach( childObj => {
+                console.log("Adresa de mail ", childObj.val().MailClient);
+                if(cheie == childObj.val().IdProdus){
+                    Email.send({
+                        SecureToken : "d4e41b30-45f4-4df0-9742-b6750961dc90",
+                        To : childObj.val().MailClient,
+                        From : "muntyancraciunela@gmail.com",
+                        Subject : "Stoc Produs" + cheie,
+                        Body : "Buna " + childObj.val().NumeClient + ",<br> Produsul <b>" + childObj.val().NumeProdus + "</b> cu pretul de <b>"+ childObj.val().PretProdus + "</b> a revenit in stoc." +
+                            "<br><br>Cu respect,<br>Echipa MIMI"
+                    })
+                    .then( message => {
+                        console.log("MAIL UL A FOST TRM CU SUCCES");
+                        console.log(message);
+                        
+                    });
+                    remove(child(dbRef, "Notificari/" + childObj.key))
+                    .then(() => {
+                        console.log("Utilizatorul a fost sters de la notificari: ", childObj.val().MailClient);
+                    })
+                }
+                else{
+                    console.log("NOOO");
+                }
+            })
+        })
+        .catch((err) =>{
+            console.log("Eroare", err);
+        })
+    }
+
     // EVENIMENT PENTRU SALVAREA MODIFICARILOR
     btnSave.addEventListener('click', () => {
         
@@ -2998,30 +3035,44 @@ function AddItem(key, brand, imagine1, imagine2, nume, pret, reducere, pretRedus
             .catch((error) => {
                 console.log(error);
             }) 
-        }
-         
+
+            update(child(dbRef, "Produse/" + keyEdit + "/Culori/" + "Negru/" + "Marimi/"), {
+                "xs": xsNegru.value,
+                "s": sNegru.value,
+                "m": mNegru.value,
+                "l": lNegru.value, 
+                "xl": xlNegru.value    
+            }) 
+            .then(() => {
+                console.log("Marimile AU FOST Actualizate");
+                window.location.reload(true);
+            })
+            .catch((error) => {
+                console.log(error);
+            }) 
+
+            var stoc = parseInt(xsNegru.value) + parseInt(sNegru.value) + parseInt(mNegru.value) + parseInt(lNegru.value) + parseInt(xlNegru.value);
+            if(stoc != 0){
+                console.log("stoc > 0 => stoc = ",stoc);
+                sendMail(key);
+                
+            }else{
+                console.log("stoc = 0 => stoc = ", stoc);
+               
+            }
+            
+            
+            update(child(dbRef, "Produse/" + keyEdit), {
+                Stoc: stoc
+            })
+            .then(() =>{
+                console.log("actualizare stoc ***");
+                
+            })
+        }   
     });
 
-    // "Culori": {
-    //             "Negru": {
-    //                 "Marimi": {
-    //                     "xs": xsNegru.value,
-    //                     "s": sNegru.value,
-    //                     "m": mNegru.value,
-    //                     "l": lNegru.value, 
-    //                     "xl": xlNegru.value
-    //                 }
-    //             },
-    //             "Alb": {
-    //                 "Marimi": {
-    //                     "xs": xsAlb.value,
-    //                     "s": sAlb.value,
-    //                     "m": mAlb.value,
-    //                     "l": lAlb.value, 
-    //                     "xl": xlAlb.value
-    //                 }
-    //             }
-    //         }
+    
     
     
     prodMap.set(td1.id, key);

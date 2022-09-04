@@ -1009,16 +1009,33 @@ get(child(dbRef, "Produse/" + keyProd)).then((snapshot) => {
 
 
         function sendNotification() {
+
+            // TRIMITEREA UNUI MAIL DE CONFIRMARE 
             get(child(dbRef, "Conturi/" + uid)).then((snapshot) => {
                 if(snapshot.exists()){
                     let mail = snapshot.val().Mail;
+                    let nume = snapshot.val().Nume;
                     console.log("MAIL === " + mail);
+                    console.log("Nume prod ", name.textContent);
+                    console.log("pret ",  price.textContent);
+                    get(child(dbRef, "Notificari/")).then((snapshot) => {
+
+                        push(ref(db, "Notificari/"), {
+                            NumeClient: nume,
+                            MailClient: mail,
+                            IdProdus: keyProd,
+                            NumeProdus: name.textContent,
+                            PretProdus: price.textContent
+                        })
+                        
+                    })
+
                     Email.send({
                         SecureToken : "d4e41b30-45f4-4df0-9742-b6750961dc90",
                         To : mail,
                         From : "muntyancraciunela@gmail.com",
                         Subject : "Stoc Produs" + keyProd,
-                        Body : "Multumim, " + snapshot.val().Nume + " pentru ca ati ales aceasta optiune de notificare." +
+                        Body : "Multumim, " + nume + " pentru ca ati ales aceasta optiune de notificare." +
                             "<br> Va vom anunta cand produsul va fi iar in stoc." + 
                             "<br><br>Cu respect,<br>Echipa MIMI"
                     })

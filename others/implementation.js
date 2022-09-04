@@ -165,3 +165,224 @@ sendPasswordResetEmail(auth, email)
     document.getElementById("error-mail").innerHTML = "Nu exista cont cu aceasta adresa de mail!";
     document.getElementById("error-mail").style.color = "red";
 });
+
+
+// PRODUSE RECOMANDATE
+
+
+
+
+
+
+function AddAllItems(Produse){
+    Produse.reverse();
+    divGenerate.innerHTML = "";
+    Produse.forEach(element => {
+        AddItem(element.key, element.val().Brand, element.val().Poza, 
+        element.val().Poza2, element.val().Nume, element.val().Pret, 
+        element.val().Reducere, element.val().PretRedus, element.val().FavoriteBy);
+    })
+}
+
+
+
+
+
+function GetAllData(){
+    const que = query(ref(db, "Produse"),orderByChild("NrRecomandare"), limitToLast(4));
+    get(que)
+    .then((snapshot) => {
+        var prod = [];
+        snapshot.forEach(childSnapshot => {
+            prod.push(childSnapshot);
+        });
+        AddAllItems(prod);     
+    })
+    .catch((error) => {
+        console.log("Mesaj eroare " + error);
+    })
+}
+window.onload = GetAllData;
+
+
+
+
+
+
+
+// ADAUGAREA PROD LA FAV
+
+// td1-pictograma inima
+var love = document.getElementById("love" + count);
+// EVENIMENT PENTRU ADAUGAREA PRODUSELOR LA FAVORITE
+love.addEventListener('click', () => {
+    if(td1.children[0].classList.contains("inactiveHeart") === true){
+        td1.children[0].classList.remove("inactiveHeart");
+        td1.children[0].classList.add("activeHeart");
+        
+        let key = prodMap.get(td1.id);
+        console.log("Cheie event-love: " + key);
+
+        let allFavorite = new Set();
+        if(favoriteBy){
+            allFavorite.add(uid);
+            favoriteBy.forEach(item => {
+                allFavorite.add(item);
+            })
+        }else{
+            allFavorite.add(uid); 
+        }
+
+        update(child(dbRef, "Produse/" +  key), {
+            FavoriteBy: Array.from(allFavorite),
+            NrRecomandare: allFavorite.size
+        })
+        .then(()=>{
+            console.log("ListaFav a fost actualizata");
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
+    else{
+        td1.children[0].classList.remove("activeHeart");
+        td1.children[0].classList.add("inactiveHeart");
+        // uid = utilizatorul curent
+        let updatedList = favoriteBy.filter(item => {
+            return item != uid;
+        });
+        update(child(dbRef, "Produse/" +  key), {
+            FavoriteBy: updatedList,
+            NrRecomandare: updatedList.length
+        })
+        .then(()=>{
+            console.log("ListaFav a fost actualizata");
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
+});
+
+
+// GENERARER PDF
+
+function generarePDF(numeClient, stradaClient, orasClient, JudetClient, codpClient, telefonClient, mailClient){
+    var today = new Date();
+
+    let zi = today.getDate();
+    let luna = today.getMonth() + 1;
+    let an = today.getFullYear();
+
+    let ora = today.getHours();
+    let minute = today.getMinutes();
+    let secunde = today.getSeconds();
+
+    window.jsPDF = window.jspdf.jsPDF;
+
+    var columns = [
+        {title: "Nume Produs", dataKey: "nume"},
+        {title: "Brand", dataKey: "brand"}, 
+        {title: "Culoare", dataKey: "culoare"}, 
+        {title: "Marime", dataKey: "marime"},
+        {title: "Pret", dataKey: "pret"},
+        {title: "Pret Redus", dataKey: "pretRedus"},
+        {title: "Cantitate", dataKey: "cantitate"},
+        {title: "Subtotal", dataKey: "subtotal"}
+    ]
+    var rows = parcurgeLista();
+    
+    var doc = new jsPDF();
+
+
+    doc.autoTable(columns, rows, {
+        styles: {fillColor: [89, 150, 148]},
+        columnStyles: {
+            id: {fillColor: 255}
+        },
+        margin: {top: 300},
+        didDrawPage: function() {
+
+            var doc = new jsPDF();
+
+            doc.text("FACTURA", 40, 30);
+
+            doc.autoTable({
+                head: [['Nr. Factura', 'Data emiterii', 'Ora emiterii']],
+                body: [
+                    [nr, zi + '/' + luna + '/' + an, ora + ':' + minute + ':' + secunde]
+                ]
+            });
+
+            doc.save(numeFactura);
+
+            doc.autoTable({
+                head: [['Facturat catre', 'MIMI SHOP']],
+                body: [
+                    [numeClient, 'site shop'],
+                    [stradaClient, 'Strada companiei'],
+                    [orasClient + '/' + JudetClient + '/Romania', 'Timisoara/Timis/Romania'],
+                    [codpClient, ''],
+                    [telefonClient, '0786673433'],
+                    [mailClient, 'mimi-shop@gmail.com']
+                ]
+            });
+        }
+    });
+    
+    var transport;
+    doc.text("Subtotal: " +  sessionStorage.getItem("subPlata") + " lei", 400, 700);
+    if(document.getElementById('express').checked) {
+        transport = "39";
+    }else if(document.getElementById('domiciliu').checked) {
+        transport = "19";
+    }else if(document.getElementById('posta').checked){
+        transport = "13";
+    }else if(document.getElementById('magazin').checked){
+        transport = "0";
+    }
+    var total = parseFloat(sessionStorage.getItem("subPlata")) + parseFloat(transport);
+    doc.text("Transport: " +  transport + " lei", 400, 720);
+    doc.text("Total: " + total + " lei", 400, 740);
+
+    var pdfBase64 = doc.output('datauristring');
+
+    const confirmSave = confirm("Doriti sa descarcati factura?");
+    if(confirmSave){
+        doc.save(numeFactura);
+    }
+        
+    sendEmail(numeFactura, pdfBase64);
+}
+
+
+generarePDF();
+
+
+function parcurgeLista(){
+    let listaProd = [];
+    for(const element of listProducts){
+        listaProd.push(element);
+    }
+    return listaProd; 
+}
+
+
+
+
+
+// FUNCTIE DE CAUTARE
+
+
+function searchKeyWord(childSnapshot, input){
+    let nume = childSnapshot.val().Nume;
+    let words = nume.split(" ");
+
+    for(let word of words){
+        if(word.toLowerCase() === input.toLowerCase()){
+            return childSnapshot;
+        }
+    }
+}
+
+searchKeyWord();

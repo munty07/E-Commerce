@@ -845,8 +845,6 @@
  }
 
 
-
- let lstTotala = [];
  function AddAllItems(Produse){
      Produse.reverse();
      divGenerate.innerHTML = "";
@@ -857,14 +855,11 @@
          console.log(element.val().FavoriteBy);
          
          AddItem(element.key, element.val().Brand, element.val().Poza, element.val().Poza2, element.val().Nume, element.val().Pret, element.val().Reducere, element.val().PretRedus, element.val().FavoriteBy);
-         
      })
  }
 
  function GetAllData(){
-     const dbRef = ref(db);
      const que = query(ref(db, "Produse"),orderByChild("NrRecomandare"), limitToLast(4));
-    
      get(que)
      .then((snapshot) => {
          var prod = [];
@@ -873,9 +868,7 @@
              console.log(childSnapshot.key);
              prod.push(childSnapshot);
          });
-         
-         AddAllItems(prod);
-         
+         AddAllItems(prod);     
      })
      .catch((error) => {
          console.log("Mesaj eroare " + error);
